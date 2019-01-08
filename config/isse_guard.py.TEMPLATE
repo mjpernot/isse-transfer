@@ -1,0 +1,10 @@
+# ISSE Guard Configuration file
+# Classification (U)
+# Dissem_Dir -> Base directory path for the moveapproved option.
+dissem_dir = "/<DIR_PATH>/"
+# Transfer_Dir -> Base directory path to where the different security transfer directories are located.
+transfer_dir = "/<DIR_PATH>/"
+# Log_Dir -> Directory path to where the program log will be written to.
+log_dir = "/<DIR_PATH>/"
+# Backup -> If True moves files to completed_dir otherwise deletes them.
+backup = True
