@@ -13,7 +13,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ### Fixed
 - transfer_file:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
 - process_files:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
-- __send:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
+- \_\_send:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
 - process_media:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
 
 
