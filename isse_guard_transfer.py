@@ -89,7 +89,6 @@ import isse_lib.isse_guard_class as isse_guard_class
 import sftp_lib.sftp_class as sftp_class
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -101,8 +100,6 @@ def help_message(**kwargs):
         message when -h option is selected.
 
     Arguments:
-        (input) **kwargs:
-            None
 
     """
 
@@ -119,8 +116,6 @@ def load_cfg(cfg_name, cfg_dir, **kwargs):
     Arguments:
         (input) cfg_name -> Configuration file name.
         (input) cfg_dir -> Directory path to the configuration file.
-        (input) **kwargs:
-            None
         (output) cfg -> Configuration module handler.
         (output) status_flag -> True|False - successfully validate config file.
 
@@ -173,8 +168,6 @@ def set_sftp_conn(ISSE, cfg_file, cfg_dir, LOG, **kwargs):
         (input) cfg_file -> SFTP configuration file.
         (input) cfg_dir -> Directory path to SFTP configuration file.
         (input) LOG -> Log class instance.
-        (input) **kwargs:
-            None
         (output) SFTP -> SFTP class.
         (output) status -> True|False - Successfully changed directory.
 
@@ -200,7 +193,7 @@ def set_sftp_conn(ISSE, cfg_file, cfg_dir, LOG, **kwargs):
     return SFTP, status
 
 
-def transfer_file(ISSE, SFTP, LOG, JOB, file_path, keep_file=False):
+def transfer_file(ISSE, SFTP, LOG, JOB, file_path, keep_file=False, **kwargs):
 
     """Function:  transfer_file
 
@@ -213,8 +206,6 @@ def transfer_file(ISSE, SFTP, LOG, JOB, file_path, keep_file=False):
         (input) JOB -> Log class instance.
         (input) file_path -> Full path and file name being processed.
         (input) keep_file -> True|False - on whether to archive the file.
-        (input) **kwargs:
-            None
         (output) True|False -> Succesful completion of transfer.
 
     """
@@ -292,8 +283,6 @@ def process_files(ISSE, SFTP, LOG, JOB, file_filter="*.zip", keep_file=False,
         (input) keep_file -> True|False - on whether to archive the file.
         (input) make_hash -> True|False - create a MD5 hash for the file.
         (input) make_base64 -> True|False - convert file to base64 format.
-        (input) **kwargs:
-            None
         (output) cnt -> Number of files processed.
 
     """
@@ -446,8 +435,6 @@ def __send(ISSE, SFTP, LOG, **kwargs):
         (input) ISSE -> ISSE Guard class instance.
         (input) SFTP -> SFTP class instance.
         (input) LOG -> Log class instance.
-        (input) **kwargs:
-            None
 
     """
 
@@ -493,8 +480,6 @@ def process_images(MOVE_FILE, LOG, **kwargs):
     Arguments:
         (input) MOVE_FILE -> Move_To_File class instance.
         (input) LOG -> Log class instance.
-        (input) **kwargs:
-            None
 
     """
 
@@ -527,8 +512,6 @@ def process_media(MOVE_FILE, LOG, **kwargs):
     Arguments:
         (input) MOVE_FILE -> Move_To_File class instance.
         (input) LOG -> Log class instance.
-        (input) **kwargs:
-            None
 
     """
 
@@ -561,8 +544,6 @@ def process_zip(MOVE_FILE, LOG, **kwargs):
     Arguments:
         (input) MOVE_FILE -> Move_To_File class instance.
         (input) LOG -> Log class instance.
-        (input) **kwargs:
-            None
 
     """
 
@@ -597,8 +578,6 @@ def cleanup(MOVE_FILE, LOG, **kwargs):
     Arguments:
         (input) MOVE_FILE -> Move_To_File class instance.
         (input) LOG -> Log class instance.
-        (input) **kwargs:
-            None
 
     """
 
@@ -626,8 +605,6 @@ def move_to_reviewed(ISSE, LOG, **kwargs):
     Arguments:
         (input) ISSE -> ISSE Guard class instance.
         (input) LOG -> Log class instance.
-        (input) **kwargs:
-            None
 
     """
 
