@@ -1,0 +1,10 @@
+*.pyc
+.coverage
+*.swp
+*.HOLD
+coverage.xml
+config/*.py
+config/*.cfg
+lib
+isse_lib
+sftp_lib
