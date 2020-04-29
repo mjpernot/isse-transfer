@@ -4,8 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.0.4] - 2020-04-29
+### Changed
+- Documentation updates.
+
+
 ## [3.0.3] - 2018-11-26
 ### Changed
+- transfer_file: Added \*\*kwargs to parameter list.
 - Documentation updates.
 
 
