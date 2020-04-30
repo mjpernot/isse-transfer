@@ -40,8 +40,8 @@
         this program.  Create them and replace those variables
         (i.e. <VARIABLE>) with a value.
 
-        ISSE Guard configuration file format (isse_guard.py).  The
-        configuration file format for the ISSE Guard is for the initial
+        ISSE Guard configuration file format (config/isse_guard.py.TEMPLATE).
+        The configuration file format for the ISSE Guard is for the initial
         environment setup for the program.
             # ISSE Guard Configuration file
             # Classification (U)
@@ -54,8 +54,9 @@
             # Backup -> True archives the files,  False will delete them.
             backup = True
 
-        SSH/SFTP configuration file format (ssh_config.py).  The configuration
-        file format is for SFTP connection setup to ISSE Guard server.
+        SSH/SFTP configuration file format (config/ssh_config.py.TEMPLATE).
+        The configuration file format is for SFTP connection setup to ISSE
+        Guard server.
             # SSH Configuration file
             # Classification (U)
             # Unclassified until filled.
