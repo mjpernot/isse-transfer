@@ -46,11 +46,11 @@
             # ISSE Guard Configuration file
             # Classification (U)
             # Dissem_Dir -> Base directory for "moveapproved" option.
-            dissem_dir = "/<DIR_PATH>/"
+            dissem_dir = "DIRECTORY_PATH"
             # Transfer_Dir -> Base directory to security transfer directories.
-            transfer_dir = "/<DIR_PATH>/"
+            transfer_dir = "DIRECTORY_PATH"
             # Log_Dir -> Directory path where program log will be written to.
-            log_dir = "/<DIR_PATH>/"
+            log_dir = "DIRECTORY_PATH"
             # Backup -> True archives the files,  False will delete them.
             backup = True
 
@@ -59,12 +59,12 @@
             # SSH Configuration file
             # Classification (U)
             # Unclassified until filled.
-            username = "<USERNAME>"
-            password = "<USER_PASSWD>"
-            host = "<SERVER_NAME>"
+            username = "USERNAME"
+            password = "USER_PSWD"
+            host = "SERVER_NAME"
             port = 22
             # Log_File -> Directory path to Paramiko log file location.
-            log_file = "/<DIRECTORY_PATH>/paramiko.log"
+            log_file = "DIRECTORY_PATH/paramiko.log"
 
     Example:
         isse_guard_transfer.py -c isse_guard -d config -s ssh_config -N SIPR
