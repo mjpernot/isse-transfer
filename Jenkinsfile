@@ -32,6 +32,7 @@ pipeline {
                 pip2 install pycrypto==2.3 --user
                 pip2 install scandir==1.5 --user
                 pip2 install simplejson==2.0.9 --user
+                ./test/unit/isse_guard_transfer/_send.py
                 ./test/unit/isse_guard_transfer/help_message.py
                 ./test/unit/isse_guard_transfer/load_cfg.py
                 ./test/unit/isse_guard_transfer/process.py
