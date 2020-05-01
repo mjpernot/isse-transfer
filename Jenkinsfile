@@ -34,6 +34,7 @@ pipeline {
                 pip2 install simplejson==2.0.9 --user
                 ./test/unit/isse_guard_transfer/help_message.py
                 ./test/unit/isse_guard_transfer/load_cfg.py
+                ./test/unit/isse_guard_transfer/process_files.py
                 ./test/unit/isse_guard_transfer/set_sftp_conn.py
                 ./test/unit/isse_guard_transfer/transfer_file.py
                 deactivate
