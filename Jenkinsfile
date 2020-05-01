@@ -69,9 +69,6 @@ pipeline {
         }
         stage('Artifactory upload') {
             steps {
-                sh './test/unit/sonarqube_code_coverage.sh'
-                sh 'rm -rf lib'
-                sh 'rm -rf mongo_lib'
                 script {
                     server = Artifactory.server('Artifactory')
                     server.credentialsId = 'svc-highpoint-artifactory'
@@ -81,25 +78,25 @@ pipeline {
                                 "pattern": "./*.py",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/mongo-perf/"
+                                "target": "pypi-proj-local/highpoint/isse-transfer/"
                             },
                             {
                                 "pattern": "./*.txt",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/mongo-perf/"
+                                "target": "pypi-proj-local/highpoint/isse-transfer/"
                             },
                             {
                                 "pattern": "./*.md",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/mongo-perf/"
+                                "target": "pypi-proj-local/highpoint/isse-transfer/"
                             },
                             {
                                 "pattern": "*.TEMPLATE",
                                 "recursive": true,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/mongo-perf/config/"
+                                "target": "pypi-proj-local/highpoint/isse-transfer/config/"
                             }
                         ]
                     }"""
