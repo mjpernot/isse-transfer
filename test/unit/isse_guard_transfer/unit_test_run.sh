@@ -12,5 +12,6 @@ test/unit/isse_guard_transfer/load_cfg.py
 test/unit/isse_guard_transfer/process.py
 test/unit/isse_guard_transfer/process_files.py
 test/unit/isse_guard_transfer/process_images.py
+test/unit/isse_guard_transfer/process_media.py
 test/unit/isse_guard_transfer/set_sftp_conn.py
 test/unit/isse_guard_transfer/transfer_file.py
