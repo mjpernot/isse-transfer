@@ -13,6 +13,7 @@ coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/help_
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/load_cfg.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/process.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/process_files.py
+coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/process_images.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/set_sftp_conn.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/transfer_file.py
 
