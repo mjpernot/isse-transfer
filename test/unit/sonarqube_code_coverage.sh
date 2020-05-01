@@ -13,6 +13,7 @@ coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/clean
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/help_message.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/initate_process.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/load_cfg.py
+coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/main.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/move_to_reviewed.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/process.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/process_files.py
