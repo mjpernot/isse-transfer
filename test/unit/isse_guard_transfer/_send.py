@@ -298,7 +298,7 @@ class UnitTest(unittest.TestCase):
         mock_job.return_value = self.logger
 
         self.assertFalse(isse_guard_transfer._send(self.isse, self.sftp,
-                                                    self.logger))
+                                                   self.logger))
 
 
 if __name__ == "__main__":
