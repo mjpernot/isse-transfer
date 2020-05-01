@@ -178,10 +178,9 @@ class UnitTest(unittest.TestCase):
     @mock.patch("isse_guard_transfer.gen_libs.chk_crt_file",
                 mock.Mock(return_value=(True, None)))
     @mock.patch("isse_guard_transfer.gen_class.Logger")
-    @mock.patch("isse_guard_transfer.gen_class.Logger")
     @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
     @mock.patch("isse_guard_transfer.sftp_class.SFTP")
-    def test_good_check(self, mock_sftp, mock_isse, mock_log, mock_job):
+    def test_good_check(self, mock_sftp, mock_isse, mock_log):
 
         """Function:  test_good_check
 
@@ -194,10 +193,9 @@ class UnitTest(unittest.TestCase):
         mock_sftp.return_value = self.sftp
         mock_isse.return_value = self.isse
         mock_log.return_value = True
-        mock_job.return_value = True
 
         self.assertTrue(isse_guard_transfer.transfer_file(
-            self.isse, self.sftp, mock_log, mock_job, self.file_path))
+            self.isse, self.sftp, mock_log, mock_log, self.file_path))
 
 
 if __name__ == "__main__":
