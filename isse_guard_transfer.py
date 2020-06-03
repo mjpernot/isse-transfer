@@ -594,7 +594,7 @@ def cleanup(move_file, log, **kwargs):
                 log.log_info("cleanup::deleted %s" % item)
 
 
-def move_to_reviewed(ISSE, LOG, **kwargs):
+def move_to_reviewed(isse, log, **kwargs):
 
     """Function:  move_to_reviewed
 
@@ -602,77 +602,77 @@ def move_to_reviewed(ISSE, LOG, **kwargs):
         to the reviewed directory for further processing.
 
     Arguments:
-        (input) ISSE -> ISSE Guard class instance.
-        (input) LOG -> Log class instance.
+        (input) isse -> ISSE Guard class instance.
+        (input) log -> Log class instance.
 
     """
 
-    MOVE = isse_guard_class.MoveTo(ISSE.dissem_dir)
-    MOVE.get_files()
+    move = isse_guard_class.MoveTo(isse.dissem_dir)
+    move.get_files()
 
     cnt = 0
     str_val = "=" * 80
 
-    LOG.log_info("move_to_reviewed::start")
-    LOG.log_info("Processing pre-approved files...")
-    LOG.log_info("Pre-File Count: %s %s" % (str(len(MOVE.file_list)),
-                                            MOVE.dissem_dir))
+    log.log_info("move_to_reviewed::start")
+    log.log_info("Processing pre-approved files...")
+    log.log_info("Pre-File Count: %s %s" % (str(len(move.file_list)),
+                                            move.dissem_dir))
 
-    for file_path in MOVE.file_list:
+    for file_path in move.file_list:
 
-        LOG.log_info("Processing: %s" % file_path)
+        log.log_info("Processing: %s" % file_path)
 
-        MOVE_FILE = isse_guard_class.MoveToFile(file_path, ISSE.review_dir,
-                                                ISSE.dissem_dir)
+        move_file = isse_guard_class.MoveToFile(file_path, isse.review_dir,
+                                                isse.dissem_dir)
 
-        LOG.log_info("%s" % str_val)
-        LOG.log_info("File_Name: %s" % MOVE_FILE.cur_file_name)
-        LOG.log_info("File_Dir: %s" % MOVE_FILE.cur_file_dir)
-        LOG.log_info("Zip_File: %s" % MOVE_FILE.zip_file_path)
-        LOG.log_info("XML_File_Path: %s" % MOVE_FILE.xml_file_path)
-        LOG.log_info("XML_File_Name: %s" % MOVE_FILE.xml_file_name)
-        LOG.log_info("%s" % str_val)
+        log.log_info("%s" % str_val)
+        log.log_info("File_Name: %s" % move_file.cur_file_name)
+        log.log_info("File_Dir: %s" % move_file.cur_file_dir)
+        log.log_info("Zip_File: %s" % move_file.zip_file_path)
+        log.log_info("XML_File_Path: %s" % move_file.xml_file_path)
+        log.log_info("XML_File_Name: %s" % move_file.xml_file_name)
+        log.log_info("%s" % str_val)
 
-        status, err_msg = gen_libs.chk_crt_file(MOVE_FILE.xml_file_path,
+        status, err_msg = gen_libs.chk_crt_file(move_file.xml_file_path,
                                                 write=True, read=True)
 
         if status:
 
-            MOVE_FILE.parse_xml_file()
+            move_file.parse_xml_file()
 
-            LOG.log_info("Product_Line: %s Image_Count: %s Media_Count: %s"
-                         % (MOVE_FILE.product_line, str(len(MOVE_FILE.images)),
-                            str(len(MOVE_FILE.media))))
+            log.log_info("Product_Line: %s Image_Count: %s Media_Count: %s"
+                         % (move_file.product_line, str(len(move_file.images)),
+                            str(len(move_file.media))))
 
-            if MOVE_FILE.product_line in MOVE_FILE.product_list:
-                LOG.log_info("Product_Line: %s processing..."
-                             % MOVE_FILE.product_line)
+            if move_file.product_line in move_file.product_list:
+                log.log_info("Product_Line: %s processing..."
+                             % move_file.product_line)
 
-                MOVE_FILE.process_product()
+                move_file.process_product()
 
-                LOG.log_info("Object_ID: %s Dissem_Level: %s"
-                             % (MOVE_FILE.object_id, MOVE_FILE.dissem_level))
+                log.log_info("Object_ID: %s Dissem_Level: %s"
+                             % (move_file.object_id, move_file.dissem_level))
 
                 # Add the html and xml to the zip list.
-                MOVE_FILE.add_to_zip(MOVE_FILE.cur_file_name)
-                MOVE_FILE.add_to_zip(MOVE_FILE.xml_file_name)
-                MOVE_FILE.add_to_cleanup(MOVE_FILE.dissem_dir +
-                                         MOVE_FILE.cur_file_name)
-                MOVE_FILE.add_to_cleanup(MOVE_FILE.dissem_dir +
-                                         MOVE_FILE.xml_file_name)
+                move_file.add_to_zip(move_file.cur_file_name)
+                move_file.add_to_zip(move_file.xml_file_name)
+                move_file.add_to_cleanup(move_file.dissem_dir +
+                                         move_file.cur_file_name)
+                move_file.add_to_cleanup(move_file.dissem_dir +
+                                         move_file.xml_file_name)
 
-                LOG.log_info("move_to_reviewed::Files_To_Zip %s"
-                             % MOVE_FILE.cur_file_name)
-                LOG.log_info("move_to_reviewed::Files_To_Zip %s"
-                             % MOVE_FILE.xml_file_name)
+                log.log_info("move_to_reviewed::Files_To_Zip %s"
+                             % move_file.cur_file_name)
+                log.log_info("move_to_reviewed::Files_To_Zip %s"
+                             % move_file.xml_file_name)
 
-                process_images(MOVE_FILE, LOG)
-                process_media(MOVE_FILE, LOG)
-                process_zip(MOVE_FILE, LOG)
-                cleanup(MOVE_FILE, LOG)
+                process_images(move_file, log)
+                process_media(move_file, log)
+                process_zip(move_file, log)
+                cleanup(move_file, log)
                 cnt += 1
 
-    LOG.log_info("Moved_To_Reviewed::end %s: %s" % (MOVE.dissem_dir, str(cnt)))
+    log.log_info("Moved_To_Reviewed::end %s: %s" % (move.dissem_dir, str(cnt)))
 
 
 def initate_process(args_array, ISSE, **kwargs):
