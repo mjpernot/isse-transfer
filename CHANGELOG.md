@@ -9,6 +9,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - process_media:  Incorrect reference to review_dir attribute.
 
 ### Changed
+- initate_process:  Changed variables name to standard naming convention.
 - move_to_reviewed:  Changed variables name to standard naming convention.
 - cleanup:  Changed variables name to standard naming convention.
 - process_zip:  Changed variables name to standard naming convention.

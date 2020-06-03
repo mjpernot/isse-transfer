@@ -675,7 +675,7 @@ def move_to_reviewed(isse, log, **kwargs):
     log.log_info("Moved_To_Reviewed::end %s: %s" % (move.dissem_dir, str(cnt)))
 
 
-def initate_process(args_array, ISSE, **kwargs):
+def initate_process(args_array, isse, **kwargs):
 
     """Function:  initate_process
 
@@ -683,65 +683,65 @@ def initate_process(args_array, ISSE, **kwargs):
         determines which option will be ran.
 
     Arguments:
-        (input)  args_array -> Dict of command line options and values.
-        (input) ISSE -> ISSE Guard class instance.
+        (input) args_array -> Dict of command line options and values.
+        (input) isse -> ISSE Guard class instance.
         (input) **kwargs:
             pattern -> pattern matching string for other filenames
 
     """
 
-    LOG = gen_class.Logger(ISSE.prog_log, ISSE.prog_log, "INFO",
+    log = gen_class.Logger(isse.prog_log, isse.prog_log, "INFO",
                            "%(asctime)s %(levelname)s %(message)s",
                            "%Y-%m-%dT%H:%M:%SZ")
 
     str_val = "=" * 80
-    LOG.log_info("%s Initialized" % ISSE.name)
-    LOG.log_info("%s" % str_val)
-    LOG.log_info("Transfer Dir: %s" % ISSE.transfer_dir)
-    LOG.log_info("Review Dir: %s" % ISSE.review_dir)
-    LOG.log_info("Complete Dir: %s" % ISSE.complete_dir)
-    LOG.log_info("Job Log: %s" % ISSE.job_log)
-    LOG.log_info("%s" % str_val)
+    log.log_info("%s Initialized" % isse.name)
+    log.log_info("%s" % str_val)
+    log.log_info("Transfer Dir: %s" % isse.transfer_dir)
+    log.log_info("Review Dir: %s" % isse.review_dir)
+    log.log_info("Complete Dir: %s" % isse.complete_dir)
+    log.log_info("Job Log: %s" % isse.job_log)
+    log.log_info("%s" % str_val)
 
-    SFTP = None
+    sftp = None
 
-    if ISSE.action != "moveapproved":
-        SFTP, status = set_sftp_conn(ISSE, args_array["-s"], args_array["-d"],
-                                     LOG)
+    if isse.action != "moveapproved":
+        sftp, status = set_sftp_conn(isse, args_array["-s"], args_array["-d"],
+                                     log)
 
-    if ISSE.action == "moveapproved":
-        move_to_reviewed(ISSE, LOG)
+    if isse.action == "moveapproved":
+        move_to_reviewed(isse, log)
 
-    elif SFTP.is_connected and status and ISSE.action == "process":
-        ISSE.set_other_files()
-        LOG.log_info("set_other_files...")
-        LOG.log_info("[ %s ]" % ", ".join(ISSE.other_files))
+    elif sftp.is_connected and status and isse.action == "process":
+        isse.set_other_files()
+        log.log_info("set_other_files...")
+        log.log_info("[ %s ]" % ", ".join(isse.other_files))
 
-        process(ISSE, SFTP, LOG, **kwargs)
+        process(isse, sftp, log, **kwargs)
 
-    elif SFTP.is_connected and status and ISSE.action == "send":
+    elif sftp.is_connected and status and isse.action == "send":
         print("NOTE:  Send option is for debugging purposes only.")
 
-        if ISSE.files:
-            __send(ISSE, SFTP, LOG)
+        if isse.files:
+            __send(isse, sftp, log)
 
         else:
             print("ERROR:  Expected file path or array of file paths.")
 
-    elif not SFTP.is_connected:
-        LOG.log_err("SFTP Connection failed to open")
+    elif not sftp.is_connected:
+        log.log_err("SFTP Connection failed to open")
 
     elif not status:
-        LOG.log_err("SFTP failure on changing directory")
+        log.log_err("SFTP failure on changing directory")
 
     else:
-        LOG.log_err("initate_process::Unknown error")
+        log.log_err("initate_process::Unknown error")
 
-    if SFTP and SFTP.is_connected:
-        SFTP.close_conn()
-        LOG.log_info("SFTP Connection closed")
+    if sftp and sftp.is_connected:
+        sftp.close_conn()
+        log.log_info("SFTP Connection closed")
 
-    LOG.log_close()
+    log.log_close()
 
 
 def run_program(args_array, **kwargs):
