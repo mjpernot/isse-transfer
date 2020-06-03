@@ -568,19 +568,19 @@ def process_zip(move_file, log, **kwargs):
         log.log_warn("\t Dissem: %s" % move_file.dissem_level)
 
 
-def cleanup(MOVE_FILE, LOG, **kwargs):
+def cleanup(move_file, log, **kwargs):
 
     """Function:  cleanup
 
     Description:  Clean up files in the MOVE_FILE class.
 
     Arguments:
-        (input) MOVE_FILE -> Move_To_File class instance.
-        (input) LOG -> Log class instance.
+        (input) move_file -> Move_To_File class instance.
+        (input) log -> Log class instance.
 
     """
 
-    for item in MOVE_FILE.cleanup_list:
+    for item in move_file.cleanup_list:
         status, err_msg = gen_libs.chk_crt_file(item, write=True, read=True)
 
         if status:
@@ -588,10 +588,10 @@ def cleanup(MOVE_FILE, LOG, **kwargs):
             err_flag, err_msg = gen_libs.rm_file(item)
 
             if err_flag:
-                LOG.log_warn("%s" % str(err_msg))
+                log.log_warn("%s" % str(err_msg))
 
             else:
-                LOG.log_info("cleanup::deleted %s" % item)
+                log.log_info("cleanup::deleted %s" % item)
 
 
 def move_to_reviewed(ISSE, LOG, **kwargs):
