@@ -765,7 +765,7 @@ def run_program(args_array, **kwargs):
 
     else:
         try:
-            ISSE = isse_guard_class.IsseGuard(
+            isse = isse_guard_class.IsseGuard(
                 args_array["-N"], cfg,
                 action=args_array.get("-A", "process"),
                 files=args_array.get("-f", None),
@@ -778,7 +778,7 @@ def run_program(args_array, **kwargs):
             print("OS Error: %s" % msg)
 
         else:
-            initate_process(args_array, ISSE, **kwargs)
+            initate_process(args_array, isse, **kwargs)
 
 
 def main():
