@@ -155,7 +155,7 @@ def load_cfg(cfg_name, cfg_dir, **kwargs):
     return cfg, status_flag
 
 
-def set_sftp_conn(ISSE, cfg_file, cfg_dir, LOG, **kwargs):
+def set_sftp_conn(isse, cfg_file, cfg_dir, log, **kwargs):
 
     """Function:  set_sftp_conn
 
@@ -163,33 +163,33 @@ def set_sftp_conn(ISSE, cfg_file, cfg_dir, LOG, **kwargs):
         SFTP connection.
 
     Arguments:
-        (input) ISSE -> ISSE Guard class instance.
+        (input) isse -> ISSE Guard class instance.
         (input) cfg_file -> SFTP configuration file.
         (input) cfg_dir -> Directory path to SFTP configuration file.
-        (input) LOG -> Log class instance.
-        (output) SFTP -> SFTP class.
+        (input) log -> Log class instance.
+        (output) sftp -> SFTP class.
         (output) status -> True|False - Successfully changed directory.
 
     """
 
     status = True
-    SFTP = sftp_class.SFTP(cfg_file, cfg_dir)
-    SFTP.open_conn()
+    sftp = sftp_class.SFTP(cfg_file, cfg_dir)
+    sftp.open_conn()
 
-    if SFTP.is_connected:
-        LOG.log_info("SFTP Connection created")
+    if sftp.is_connected:
+        log.log_info("SFTP Connection created")
 
-        if SFTP.chg_dir(ISSE.sftp_dir):
-            LOG.log_info("SFTP destination set to: %s" % SFTP.get_pwd())
+        if sftp.chg_dir(isse.sftp_dir):
+            log.log_info("SFTP destination set to: %s" % sftp.get_pwd())
 
         else:
-            LOG.log_err("SFTP change directory failed: %s" % ISSE.sftp_dir)
+            log.log_err("SFTP change directory failed: %s" % isse.sftp_dir)
             status = False
 
     else:
-        LOG.log_err("SFTP open connection failed.")
+        log.log_err("SFTP open connection failed.")
 
-    return SFTP, status
+    return sftp, status
 
 
 def transfer_file(ISSE, SFTP, LOG, JOB, file_path, keep_file=False, **kwargs):
