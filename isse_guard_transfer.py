@@ -264,7 +264,7 @@ def transfer_file(isse, sftp, log, job, file_path, keep_file=False, **kwargs):
     return True
 
 
-def process_files(ISSE, SFTP, LOG, JOB, file_filter="*.zip", keep_file=False,
+def process_files(isse, sftp, log, job, file_filter="*.zip", keep_file=False,
                   make_hash=False, make_base64=False, **kwargs):
 
     """Function:  process_files
@@ -274,10 +274,10 @@ def process_files(ISSE, SFTP, LOG, JOB, file_filter="*.zip", keep_file=False,
         converted to base64 file format.
 
     Arguments:
-        (input) ISSE -> ISSE Guard class instance.
-        (input) SFTP -> SFTP class instance.
-        (input) LOG -> Log class instance.
-        (input) JOB -> Log class instance.
+        (input) isse -> ISSE Guard class instance.
+        (input) sftp -> SFTP class instance.
+        (input) log -> Log class instance.
+        (input) job -> Log class instance.
         (input) file_filter -> File name or wildcard expansion file name.
         (input) keep_file -> True|False - on whether to archive the file.
         (input) make_hash -> True|False - create a MD5 hash for the file.
@@ -287,48 +287,48 @@ def process_files(ISSE, SFTP, LOG, JOB, file_filter="*.zip", keep_file=False,
     """
 
     str_val = "=" * 80
-    file_list = gen_libs.list_filter_files(ISSE.review_dir, file_filter)
+    file_list = gen_libs.list_filter_files(isse.review_dir, file_filter)
     cnt = len(file_list)
     file_cnt = 0
 
-    LOG.log_info("process_files::start")
-    LOG.log_info("Pre-count %s: %s files" % (file_filter, str(cnt)))
+    log.log_info("process_files::start")
+    log.log_info("Pre-count %s: %s files" % (file_filter, str(cnt)))
 
     for file_path in file_list:
-        LOG.log_info("Processing: %s" % file_path)
+        log.log_info("Processing: %s" % file_path)
 
         if make_base64:
             f_base, f_ext = os.path.splitext(file_path)
             base64_file = f_base + f_ext[:1].replace(".", "_") + f_ext[1:] \
                 + ".64.txt"
 
-            LOG.log_info("Base64 convert: %s to %s" % (file_path, base64_file))
+            log.log_info("Base64 convert: %s to %s" % (file_path, base64_file))
             base64.encode(open(file_path, 'rb'), open(base64_file, 'wb'))
 
-            LOG.log_info("Move to complete: %s" % os.path.basename(file_path))
-            gen_libs.mv_file2(file_path, ISSE.complete_dir)
-            LOG.log_info("Move to completed: %s" % file_path)
+            log.log_info("Move to complete: %s" % os.path.basename(file_path))
+            gen_libs.mv_file2(file_path, isse.complete_dir)
+            log.log_info("Move to completed: %s" % file_path)
 
             file_path = base64_file
 
         if make_hash:
             hash_file = gen_libs.make_md5_hash(file_path)
-            LOG.log_info("Make hash => %s" % hash_file)
+            log.log_info("Make hash => %s" % hash_file)
 
-        if not transfer_file(ISSE, SFTP, LOG, JOB, file_path,
+        if not transfer_file(isse, sftp, log, job, file_path,
                              keep_file):
-            LOG.log_err("Failed to transfer: %s" % file_path)
+            log.log_err("Failed to transfer: %s" % file_path)
 
         else:
             file_cnt += 1
 
-    LOG.log_info("Post-count %s: %s files" % (file_filter, str(file_cnt)))
+    log.log_info("Post-count %s: %s files" % (file_filter, str(file_cnt)))
 
     if cnt != file_cnt:
-        LOG.log_warn("Counts do not match")
+        log.log_warn("Counts do not match")
 
-    LOG.log_info("process_files::end")
-    LOG.log_info("%s" % str_val)
+    log.log_info("process_files::end")
+    log.log_info("%s" % str_val)
 
     return cnt
 
