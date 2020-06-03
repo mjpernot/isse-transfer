@@ -5,7 +5,11 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 
 ## [3.0.4] - 2020-04-29
+### Fixed
+- process_media:  Incorrect reference to review_dir attribute.
+
 ### Changed
+- process_media:  Changed variables name to standard naming convention.
 - process_images:  Changed variables name to standard naming convention.
 - \_\_send:  Changed variables name to standard naming convention.
 - process:  Changed variables name to standard naming convention.

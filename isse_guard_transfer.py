@@ -502,36 +502,36 @@ def process_images(move_file, log, **kwargs):
                      % thumb_name)
 
 
-def process_media(MOVE_FILE, LOG, **kwargs):
+def process_media(move_file, log, **kwargs):
 
     """Function:  process_media
 
     Description:  Process the media that are listed in the MOVE_FILE class.
 
     Arguments:
-        (input) MOVE_FILE -> Move_To_File class instance.
-        (input) LOG -> Log class instance.
+        (input) move_file -> Move_To_File class instance.
+        (input) log -> Log class instance.
 
     """
 
-    LOG.log_info("process_media::start %s" % str(len(MOVE_FILE.media)))
+    log.log_info("process_media::start %s" % str(len(move_file.media)))
 
-    for item in MOVE_FILE.media:
+    for item in move_file.media:
         file_name = os.path.basename(item)
-        file_path = MOVE_FILE.dissem_dir + "attachments/" + file_name
+        file_path = move_file.dissem_dir + "attachments/" + file_name
 
         # Do not zip power point files.
         if os.path.splitext(file_path)[1] == ".pptx":
-            LOG.log_info("process_media %s" % file_path)
-            gen_libs.mv_file2(file_path, ISSE.review_dir, MOVE_FILE.org +
-                             "-" + MOVE_FILE.tape_dir + "-" + file_name)
-            LOG.log_info("process_media::moved %s" % file_path)
+            log.log_info("process_media %s" % file_path)
+            gen_libs.mv_file2(file_path, move_file.review_dir, move_file.org +
+                             "-" + move_file.tape_dir + "-" + file_name)
+            log.log_info("process_media::moved %s" % file_path)
 
         else:
-            MOVE_FILE.add_to_zip("attachments/" + file_name)
-            LOG.log_info("process_media::Files_To_Zip %s" % file_name)
+            move_file.add_to_zip("attachments/" + file_name)
+            log.log_info("process_media::Files_To_Zip %s" % file_name)
 
-        MOVE_FILE.add_to_cleanup(file_path)
+        move_file.add_to_cleanup(file_path)
 
 
 def process_zip(MOVE_FILE, LOG, **kwargs):
