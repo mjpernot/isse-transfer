@@ -192,17 +192,17 @@ def set_sftp_conn(isse, cfg_file, cfg_dir, log, **kwargs):
     return sftp, status
 
 
-def transfer_file(ISSE, SFTP, LOG, JOB, file_path, keep_file=False, **kwargs):
+def transfer_file(isse, sftp, log, job, file_path, keep_file=False, **kwargs):
 
     """Function:  transfer_file
 
     Description:  Initiate transfer of file to ISSE Guard server.
 
     Arguments:
-        (input) ISSE -> ISSE Guard class instance.
-        (input) SFTP -> SFTP class instance.
-        (input) LOG -> Log class instance.
-        (input) JOB -> Log class instance.
+        (input) isse -> ISSE Guard class instance.
+        (input) sftp -> SFTP class instance.
+        (input) log -> Log class instance.
+        (input) job -> Log class instance.
         (input) file_path -> Full path and file name being processed.
         (input) keep_file -> True|False - on whether to archive the file.
         (output) True|False -> Succesful completion of transfer.
@@ -215,50 +215,50 @@ def transfer_file(ISSE, SFTP, LOG, JOB, file_path, keep_file=False, **kwargs):
 
     if status:
 
-        if SFTP.is_connected and ISSE.sftp_dir in SFTP.get_pwd():
-            LOG.log_info("Transfer => %s" % file_path)
-            LOG.log_info("\tto -> %s" % ISSE.sftp_dir)
+        if sftp.is_connected and isse.sftp_dir in sftp.get_pwd():
+            log.log_info("Transfer => %s" % file_path)
+            log.log_info("\tto -> %s" % isse.sftp_dir)
 
-            SFTP.put_file(file_path, SFTP.get_pwd() + "/" + file_name)
-            LOG.log_info("... Transfer complete.")
+            sftp.put_file(file_path, sftp.get_pwd() + "/" + file_name)
+            log.log_info("... Transfer complete.")
 
         else:
 
-            if not SFTP.is_connected:
-                LOG.log_warn("SFTP Connection is not connected.")
+            if not sftp.is_connected:
+                log.log_warn("SFTP Connection is not connected.")
 
             else:
-                LOG.log_err("Directory paths do not match.")
-                LOG.log_err("\tDest Path: %s" % ISSE.sftp_dir)
-                LOG.log_err("\tCurrent Path: %s" % SFTP.get_pwd())
+                log.log_err("Directory paths do not match.")
+                log.log_err("\tDest Path: %s" % isse.sftp_dir)
+                log.log_err("\tCurrent Path: %s" % sftp.get_pwd())
 
             return False
 
-        LOG.log_info("Transferred File: %s" % file_path)
+        log.log_info("Transferred File: %s" % file_path)
 
-        if JOB:
-            JOB.log_info("%s" % file_name)
+        if job:
+            job.log_info("%s" % file_name)
 
         if keep_file:
-            LOG.log_info("Move to complete: %s" % file_name)
+            log.log_info("Move to complete: %s" % file_name)
 
-            gen_libs.mv_file2(file_path, ISSE.complete_dir)
-            LOG.log_info("Move to completed: %s" % file_path)
+            gen_libs.mv_file2(file_path, isse.complete_dir)
+            log.log_info("Move to completed: %s" % file_path)
 
         else:
-            LOG.log_info("Delete: %s" % file_name)
+            log.log_info("Delete: %s" % file_name)
 
             err_flag, err_msg = gen_libs.rm_file(file_path)
 
             if err_flag:
-                LOG.log_warn("%s" % str(err_msg))
+                log.log_warn("%s" % str(err_msg))
 
             else:
-                LOG.log_info("Deleted: %s" % file_path)
+                log.log_info("Deleted: %s" % file_path)
 
     else:
-        LOG.log_warn("File not found: %s" % file_path)
-        LOG.log_warn("Reason:  %s" % err_msg)
+        log.log_warn("File not found: %s" % file_path)
+        log.log_warn("Reason:  %s" % err_msg)
         return False
 
     return True
