@@ -131,6 +131,12 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialize testing environment.
+        test_bices_error -> Test with bices remove error.
+        test_bices_files -> Test with bices files.
+        test_no_files -> Test with no files processed.
+        test_transfer_file_true-> Test with transfer file is set to True.
+        test_is_file -> Test with is file check.
+        test_pattern_search -> Test with pattern search.
         test_one_file -> Test with one file check.
 
     """
@@ -271,6 +277,176 @@ class UnitTest(unittest.TestCase):
         self.logger = Logger("Name", "Name", "INFO", "%(asctime)s%(message)s",
                              "%m-%d-%YT%H:%M:%SZ|")
         self.file_path = "/dirpath/file1.txt"
+        self.other_files = \
+            {"test/unit/isse_guard_transfer/basefiles/proc.txt": True}
+
+    @mock.patch("isse_guard_transfer.gen_libs.rm_file",
+                mock.Mock(return_value=(True, "Error Message")))
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=False))
+    @mock.patch("isse_guard_transfer.re.search", mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.process_files", mock.Mock(return_value=1))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_bices_error(self, mock_sftp, mock_isse, mock_job):
+
+        """Function:  test_bices_error
+
+        Description:  Test with bices remove error.
+
+        Arguments:
+
+        """
+
+        self.isse.network = "BICES"
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_job.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer.process(self.isse, self.sftp,
+                                                     self.logger))
+
+    @mock.patch("isse_guard_transfer.gen_libs.rm_file",
+                mock.Mock(return_value=(False, None)))
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=False))
+    @mock.patch("isse_guard_transfer.re.search", mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.process_files", mock.Mock(return_value=1))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_bices_files(self, mock_sftp, mock_isse, mock_job):
+
+        """Function:  test_bices_files
+
+        Description:  Test with bices files.
+
+        Arguments:
+
+        """
+
+        self.isse.network = "BICES"
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_job.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer.process(self.isse, self.sftp,
+                                                     self.logger))
+
+    @mock.patch("isse_guard_transfer.gen_libs.make_md5_hash",
+                mock.Mock(return_value="FileName"))
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=False))
+    @mock.patch("isse_guard_transfer.re.search", mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.process_files", mock.Mock(return_value=0))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_no_files(self, mock_sftp, mock_isse, mock_job):
+
+        """Function:  test_no_files
+
+        Description:  Test with no files processed.
+
+        Arguments:
+
+        """
+
+        self.isse.other_files = self.other_files
+        self.isse.other_file_types = self.other_files
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_job.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer.process(self.isse, self.sftp,
+                                                     self.logger))
+
+    @mock.patch("isse_guard_transfer.gen_libs.make_md5_hash",
+                mock.Mock(return_value="FileName"))
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.re.search", mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.process_files", mock.Mock(return_value=1))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_transfer_file_true(self, mock_sftp, mock_isse, mock_job):
+
+        """Function:  test_transfer_file_true
+
+        Description:  Test with transfer file is set to True.
+
+        Arguments:
+
+        """
+
+        self.isse.other_files = self.other_files
+        self.isse.other_file_types = self.other_files
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_job.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer.process(self.isse, self.sftp,
+                                                     self.logger))
+
+    @mock.patch("isse_guard_transfer.gen_libs.make_md5_hash",
+                mock.Mock(return_value="FileName"))
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=False))
+    @mock.patch("isse_guard_transfer.re.search", mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.process_files", mock.Mock(return_value=1))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_is_file(self, mock_sftp, mock_isse, mock_job):
+
+        """Function:  test_is_file
+
+        Description:  Test with is file check.
+
+        Arguments:
+
+        """
+
+        self.isse.other_files = self.other_files
+        self.isse.other_file_types = self.other_files
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_job.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer.process(self.isse, self.sftp,
+                                                     self.logger))
+
+    @mock.patch("isse_guard_transfer.re.search", mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=False))
+    @mock.patch("isse_guard_transfer.re.search", mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.process_files", mock.Mock(return_value=1))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_pattern_search(self, mock_sftp, mock_isse, mock_job):
+
+        """Function:  test_pattern_search
+
+        Description:  Test with pattern search.
+
+        Arguments:
+
+        """
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_job.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer.process(
+            self.isse, self.sftp, self.logger, pattern="String"))
 
     @mock.patch("isse_guard_transfer.transfer_file",
                 mock.Mock(return_value=False))
