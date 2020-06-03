@@ -817,11 +817,11 @@ def main():
 
             try:
                 flavor_id = args_array.get("-A") + args_array.get("-N")
-                PROG_LOCK = gen_class.ProgramLock(sys.argv, flavor_id)
+                prog_lock = gen_class.ProgramLock(sys.argv, flavor_id)
 
                 run_program(args_array, pattern=pattern)
 
-                del PROG_LOCK
+                del prog_lock
 
             except gen_class.SingleInstanceException:
                 print("WARNING:  Lock in place for: -A: %s  -N: %s"
