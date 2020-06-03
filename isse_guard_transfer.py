@@ -9,8 +9,9 @@
         send them to a "reviewed" directory.
 
     Usage:
-        isse_guard_transfer.py [-A {process | moveapproved | send}]
-            -N value | -c file | -d path | -s file [-f path | [path1, path2]]
+        isse_guard_transfer.py -c file | -d path | -s file |
+            -A {process | moveapproved | send} [-f {path | [path1, path2]} |
+            -N {SIPR | CW | BICES} |
             -k {True | False}
             [-v | -h]
 
@@ -43,8 +44,6 @@
         ISSE Guard configuration file format (config/isse_guard.py.TEMPLATE).
         The configuration file format for the ISSE Guard is for the initial
         environment setup for the program.
-            # ISSE Guard Configuration file
-            # Classification (U)
             # Dissem_Dir -> Base directory for "moveapproved" option.
             dissem_dir = "DIRECTORY_PATH"
             # Transfer_Dir -> Base directory to security transfer directories.
@@ -57,11 +56,8 @@
         SSH/SFTP configuration file format (config/ssh_config.py.TEMPLATE).
         The configuration file format is for SFTP connection setup to ISSE
         Guard server.
-            # SSH Configuration file
-            # Classification (U)
-            # Unclassified until filled.
             username = "USERNAME"
-            password = "USER_PSWD"
+            password = "PSWD"
             host = "SERVER_NAME"
             port = 22
             # Log_File -> Directory path to Paramiko log file location.
