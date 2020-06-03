@@ -470,35 +470,35 @@ def __send(isse, sftp, log, **kwargs):
             log.log_warn("%s" % str(err_msg))
 
 
-def process_images(MOVE_FILE, LOG, **kwargs):
+def process_images(move_file, log, **kwargs):
 
     """Function:  process_images
 
     Description:  Process the images that are listed in the MOVE_FILE class.
 
     Arguments:
-        (input) MOVE_FILE -> Move_To_File class instance.
-        (input) LOG -> Log class instance.
+        (input) move_file -> Move_To_File class instance.
+        (input) log -> Log class instance.
 
     """
 
-    LOG.log_info("process_images::start %s" % str(len(MOVE_FILE.images)))
+    log.log_info("process_images::start %s" % str(len(move_file.images)))
 
-    for item in MOVE_FILE.images:
+    for item in move_file.images:
         file_base, file_ext = os.path.splitext(item)
         image_name = os.path.basename(item)
         thumb_name = file_base + ".jpg"
 
         # Add the image and thumb to the zip list.
-        MOVE_FILE.add_to_zip("sgraphics/" + image_name)
-        MOVE_FILE.add_to_zip("sgraphics/thumbnails/" + thumb_name)
-        MOVE_FILE.add_to_cleanup(MOVE_FILE.dissem_dir + "sgraphics/" +
+        move_file.add_to_zip("sgraphics/" + image_name)
+        move_file.add_to_zip("sgraphics/thumbnails/" + thumb_name)
+        move_file.add_to_cleanup(move_file.dissem_dir + "sgraphics/" +
                                  image_name)
-        MOVE_FILE.add_to_cleanup(MOVE_FILE.dissem_dir +
+        move_file.add_to_cleanup(move_file.dissem_dir +
                                  "sgraphics/thumbnails/" + thumb_name)
 
-        LOG.log_info("process_images::Files_To_Zip sgraphics/%s" % image_name)
-        LOG.log_info("process_images::Files_To_Zip sgraphics/thumbnails/%s"
+        log.log_info("process_images::Files_To_Zip sgraphics/%s" % image_name)
+        log.log_info("process_images::Files_To_Zip sgraphics/thumbnails/%s"
                      % thumb_name)
 
 
