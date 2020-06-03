@@ -3,7 +3,7 @@
 
 """Program:  _send.py
 
-    Description:  Unit testing of __send in isse_guard_transfer.py.
+    Description:  Unit testing of _send in isse_guard_transfer.py.
 
     Usage:
         test/unit/isse_guard_transfer/_send.py
