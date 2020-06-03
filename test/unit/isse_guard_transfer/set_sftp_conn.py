@@ -90,7 +90,7 @@ class SFTP(object):
 
         self.dir_path = dir_path
 
-        return True
+        return self.dir_path
 
     def get_pwd(self):
 
@@ -113,6 +113,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialize testing environment.
+        test_no_connection -> Test with no connection to SFTP..
+        test_chg_dir_fails -> Test with change directory fails.
         test_good_check -> Test with good directory checks.
 
     """
@@ -153,6 +155,51 @@ class UnitTest(unittest.TestCase):
         self.isse = Isse()
         self.cfg_file = "config_file"
         self.cfg_dir = "/dirpath"
+        self.sftp = SFTP(self.cfg_file, self.cfg_dir)
+
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_no_connection(self, mock_sftp, mock_log):
+
+        """Function:  test_no_connection
+
+        Description:  Test with no connection to SFTP.
+
+        Arguments:
+
+        """
+
+        self.sftp.is_connected = False
+
+        mock_sftp.return_value = self.sftp
+        mock_log.return_value = True
+
+        sftp, status = isse_guard_transfer.set_sftp_conn(
+            self.isse, self.cfg_file, self.cfg_dir, mock_log)
+
+        self.assertEqual((sftp.is_connected, status), (False, True))
+
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_chg_dir_fails(self, mock_sftp, mock_log):
+
+        """Function:  test_chg_dir_fails
+
+        Description:  Test with change directory fails.
+
+        Arguments:
+
+        """
+
+        mock_sftp.return_value = self.sftp
+        mock_log.return_value = True
+
+        self.isse.sftp_dir = False
+
+        sftp, status = isse_guard_transfer.set_sftp_conn(
+            self.isse, self.cfg_file, self.cfg_dir, mock_log)
+
+        self.assertEqual((sftp.is_connected, status), (True, False))
 
     @mock.patch("isse_guard_transfer.gen_class.Logger")
     @mock.patch("isse_guard_transfer.sftp_class.SFTP")
@@ -166,7 +213,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_sftp.return_value = SFTP(self.cfg_file, self.cfg_dir)
+        mock_sftp.return_value = self.sftp
         mock_log.return_value = True
 
         sftp, status = isse_guard_transfer.set_sftp_conn(
