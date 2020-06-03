@@ -210,7 +210,6 @@ class UnitTest(unittest.TestCase):
                              "%m-%d-%YT%H:%M:%SZ|")
 
     @mock.patch("isse_guard_transfer.gen_class.Logger")
-    #@mock.patch("isse_guard_transfer.isse_guard_class.MoveToFile")
     def test_one_file(self, mock_log):
 
         """Function:  test_one_file
@@ -221,7 +220,6 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        #mock_move.return_value = self.move
         mock_log.return_value = self.logger
 
         self.assertFalse(isse_guard_transfer.process_images(self.move,

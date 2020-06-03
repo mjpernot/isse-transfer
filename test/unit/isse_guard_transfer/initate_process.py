@@ -29,6 +29,7 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import isse_guard_transfer
+import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -131,6 +132,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialize testing environment.
+        test_send -> Test with send option.
+        test_move -> Test with move approved option.
         test_one_file -> Test with one file check.
 
     """
@@ -281,6 +284,7 @@ class UnitTest(unittest.TestCase):
                 self.name = "name"
                 self.transfer_dir = "/dir/transfer_dir"
                 self.action = "process"
+                self.files = "/path/file"
 
             def set_other_files(self):
 
@@ -303,11 +307,54 @@ class UnitTest(unittest.TestCase):
                              "%m-%d-%YT%H:%M:%SZ|")
         self.file_path = "/dirpath/file1.txt"
 
+    @mock.patch("isse_guard_transfer.__send", mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.move_to_reviewed",
+                mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.set_sftp_conn")
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    def test_send(self, mock_log, mock_ftp):
+
+        """Function:  test_send
+
+        Description:  Test with send option.
+
+        Arguments:
+
+        """
+
+        self.isse.action = "send"
+
+        mock_ftp.return_value = (self.sftp, True)
+        mock_log.return_value = self.logger
+
+        with gen_libs.no_std_out():
+            self.assertFalse(isse_guard_transfer.initate_process(
+                self.args_array, self.isse))
+
+    @mock.patch("isse_guard_transfer.move_to_reviewed",
+                mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    def test_move(self, mock_log):
+
+        """Function:  test_move
+
+        Description:  Test with move approved option.
+
+        Arguments:
+
+        """
+
+        self.isse.action = "moveapproved"
+
+        mock_log.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer.initate_process(self.args_array,
+                                                             self.isse))
+
     @mock.patch("isse_guard_transfer.process", mock.Mock(return_value=True))
     @mock.patch("isse_guard_transfer.set_sftp_conn")
     @mock.patch("isse_guard_transfer.gen_class.Logger")
-    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
-    def test_one_file(self, mock_isse, mock_log, mock_ftp):
+    def test_one_file(self, mock_log, mock_ftp):
 
         """Function:  test_one_file
 
@@ -317,12 +364,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_isse.return_value = self.isse
         mock_log.return_value = self.logger
         mock_ftp.return_value = (self.sftp, True)
 
         self.assertFalse(isse_guard_transfer.initate_process(self.args_array,
-                                                             mock_isse))
+                                                             self.isse))
 
 
 if __name__ == "__main__":

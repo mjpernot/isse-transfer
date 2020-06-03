@@ -131,6 +131,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialize testing environment.
+        test_remove_fail -> Test with remove failing.
         test_one_file -> Test with one file check.
 
     """
@@ -177,6 +178,7 @@ class UnitTest(unittest.TestCase):
                 self.cur_file_dir = "cur_file_dir"
                 self.cur_file_name = "cur_file_name"
                 self.cleanup_list = ["file1.txt"]
+                self.dir_path = None
 
             def add_to_zip(self, filename):
 
@@ -204,7 +206,7 @@ class UnitTest(unittest.TestCase):
 
                 """
 
-                self.filname = filename
+                self.dir_path = dir_path
 
                 return True
 
@@ -214,12 +216,30 @@ class UnitTest(unittest.TestCase):
                              "%m-%d-%YT%H:%M:%SZ|")
 
     @mock.patch("isse_guard_transfer.gen_libs.rm_file",
-                mock.Mock(return_value=(False, None)))
-    @mock.patch("isse_guard_transfer.gen_libs.make_zip",
+                mock.Mock(return_value=(True, "Error Message")))
+    @mock.patch("isse_guard_transfer.gen_libs.chk_crt_file",
                 mock.Mock(return_value=(True, None)))
     @mock.patch("isse_guard_transfer.gen_class.Logger")
-    @mock.patch("isse_guard_transfer.isse_guard_class.MoveToFile")
-    def test_one_file(self, mock_move, mock_log):
+    def test_remove_fail(self, mock_log):
+
+        """Function:  test_remove_fail
+
+        Description:  Test with remove failing.
+
+        Arguments:
+
+        """
+
+        mock_log.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer.cleanup(self.move, mock_log))
+
+    @mock.patch("isse_guard_transfer.gen_libs.rm_file",
+                mock.Mock(return_value=(False, None)))
+    @mock.patch("isse_guard_transfer.gen_libs.chk_crt_file",
+                mock.Mock(return_value=(True, None)))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    def test_one_file(self, mock_log):
 
         """Function:  test_one_file
 
@@ -229,10 +249,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_move.return_value = self.move
         mock_log.return_value = self.logger
 
-        self.assertFalse(isse_guard_transfer.cleanup(mock_move, mock_log))
+        self.assertFalse(isse_guard_transfer.cleanup(self.move, mock_log))
 
 
 if __name__ == "__main__":

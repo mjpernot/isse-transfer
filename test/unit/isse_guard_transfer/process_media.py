@@ -131,6 +131,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialize testing environment.
+        test_pptx_file -> Test with pptx file check.
         test_one_file -> Test with one file check.
 
     """
@@ -172,6 +173,10 @@ class UnitTest(unittest.TestCase):
                 self.media = media
                 self.filname = None
                 self.dissem_dir = "/dissem_dir/"
+                self.dir_path = None
+                self.review_dir = "/review_dir/"
+                self.org = "Organization"
+                self.tape_dir = "/tape_dir/"
 
             def add_to_zip(self, filename):
 
@@ -199,18 +204,38 @@ class UnitTest(unittest.TestCase):
 
                 """
 
-                self.filname = filename
+                self.dir_path = dir_path
 
                 return True
 
         self.media = ["/dir/path/filename.txt"]
+        self.pptx = ["/dir/path/filename.pptx"]
         self.move = MoveToFile(self.media)
         self.logger = Logger("Name", "Name", "INFO", "%(asctime)s%(message)s",
                              "%m-%d-%YT%H:%M:%SZ|")
 
+    @mock.patch("isse_guard_transfer.gen_libs.mv_file2",
+                mock.Mock(return_value=True))
     @mock.patch("isse_guard_transfer.gen_class.Logger")
-    @mock.patch("isse_guard_transfer.isse_guard_class.MoveToFile")
-    def test_one_file(self, mock_move, mock_log):
+    def test_pptx_file(self, mock_log):
+
+        """Function:  test_pptx_file
+
+        Description:  Test with pptx file check.
+
+        Arguments:
+
+        """
+
+        self.move.media = self.pptx
+
+        mock_log.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer.process_media(self.move,
+                                                           mock_log))
+
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    def test_one_file(self, mock_log):
 
         """Function:  test_one_file
 
@@ -220,10 +245,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_move.return_value = self.move
         mock_log.return_value = self.logger
 
-        self.assertFalse(isse_guard_transfer.process_media(mock_move,
+        self.assertFalse(isse_guard_transfer.process_media(self.move,
                                                            mock_log))
 
 

@@ -131,6 +131,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialize testing environment.
+        test_incorrect_level -> Test with incorrect dissem level.
+        test_newer_file -> Test with newer file check.
         test_one_file -> Test with one file check.
 
     """
@@ -176,6 +178,8 @@ class UnitTest(unittest.TestCase):
                 self.zip_file_path = "zip_file_path"
                 self.cur_file_dir = "cur_file_dir"
                 self.cur_file_name = "cur_file_name"
+                self.dir_path = None
+                self.files_to_zip = ["Files"]
 
             def add_to_zip(self, filename):
 
@@ -203,21 +207,55 @@ class UnitTest(unittest.TestCase):
 
                 """
 
-                self.filname = filename
+                self.dir_path = dir_path
 
                 return True
 
         self.dissem_level = "GEN-CW"
+        self.dissem_level2 = "BAD-LEVEL"
         self.move = MoveToFile(self.dissem_level)
+        self.move2 = MoveToFile(self.dissem_level2)
         self.logger = Logger("Name", "Name", "INFO", "%(asctime)s%(message)s",
                              "%m-%d-%YT%H:%M:%SZ|")
+
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    def test_incorrect_level(self, mock_log):
+
+        """Function:  test_incorrect_level
+
+        Description:  Test with incorrect dissem level.
+
+        Arguments:
+
+        """
+
+        mock_log.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer.process_zip(self.move2, mock_log))
+
+    @mock.patch("isse_guard_transfer.os.path")
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    def test_newer_file(self, mock_log, mock_os):
+
+        """Function:  test_newer_file
+
+        Description:  Test with newer file check.
+
+        Arguments:
+
+        """
+
+        mock_log.return_value = self.logger
+        mock_os.isfile.return_value = True
+        mock_os.getctime.side_effect = [1, 2]
+
+        self.assertFalse(isse_guard_transfer.process_zip(self.move, mock_log))
 
     @mock.patch("isse_guard_transfer.gen_libs.make_zip",
                 mock.Mock(return_value=True))
     @mock.patch("isse_guard_transfer.os.path")
     @mock.patch("isse_guard_transfer.gen_class.Logger")
-    @mock.patch("isse_guard_transfer.isse_guard_class.MoveToFile")
-    def test_one_file(self, mock_move, mock_log, mock_os):
+    def test_one_file(self, mock_log, mock_os):
 
         """Function:  test_one_file
 
@@ -227,11 +265,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_move.return_value = self.move
         mock_log.return_value = self.logger
         mock_os.isfile.return_value = False
 
-        self.assertFalse(isse_guard_transfer.process_zip(mock_move, mock_log))
+        self.assertFalse(isse_guard_transfer.process_zip(self.move, mock_log))
 
 
 if __name__ == "__main__":
