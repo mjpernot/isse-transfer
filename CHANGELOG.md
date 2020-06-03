@@ -6,6 +6,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [3.0.4] - 2020-04-29
 ### Changed
+- \_\_send:  Changed variables name to standard naming convention.
 - process:  Changed variables name to standard naming convention.
 - process_files:  Changed variables name to standard naming convention.
 - transfer_file:  Changed variables name to standard naming convention.

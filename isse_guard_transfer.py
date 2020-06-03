@@ -421,7 +421,7 @@ def process(isse, sftp, log, **kwargs):
     log.log_info("process::end %s: %s" % (isse.review_dir, str(file_cnt)))
 
 
-def __send(ISSE, SFTP, LOG, **kwargs):
+def __send(isse, sftp, log, **kwargs):
 
     """Function:  __send
 
@@ -431,43 +431,43 @@ def __send(ISSE, SFTP, LOG, **kwargs):
     WARNING:  Do not use this for production use.
 
     Arguments:
-        (input) ISSE -> ISSE Guard class instance.
-        (input) SFTP -> SFTP class instance.
-        (input) LOG -> Log class instance.
+        (input) isse -> ISSE Guard class instance.
+        (input) sftp -> SFTP class instance.
+        (input) log -> Log class instance.
 
     """
 
     # Make Job log name unique for Send to prevent conflict with other runs.
-    job_path = os.path.dirname(ISSE.job_log) + os.path.sep + "Send-" \
-        + os.path.basename(ISSE.job_log)
+    job_path = os.path.dirname(isse.job_log) + os.path.sep + "Send-" \
+        + os.path.basename(isse.job_log)
 
-    JOB = gen_class.Logger(job_path, job_path, "INFO",
+    job = gen_class.Logger(job_path, job_path, "INFO",
                            "%(asctime)s%(message)s", "%m-%d-%YT%H:%M:%SZ|")
 
-    if isinstance(ISSE.files, list):
+    if isinstance(isse.files, list):
 
-        for file_path in ISSE.files:
-            LOG.log_info("send %s%s" % (ISSE.target, file_path))
-            if not transfer_file(ISSE, SFTP, LOG, JOB, file_path,
-                                 ISSE.keep):
-                LOG.log_err("Failed to transfer: %s" % file_path)
+        for file_path in isse.files:
+            log.log_info("send %s%s" % (isse.target, file_path))
+            if not transfer_file(isse, sftp, log, job, file_path,
+                                 isse.keep):
+                log.log_err("Failed to transfer: %s" % file_path)
 
-    elif isinstance(ISSE.files, str):
-        LOG.log_info("send %s%s" % (ISSE.target, ISSE.files))
-        if not transfer_file(ISSE, SFTP, LOG, JOB, ISSE.files,
-                             ISSE.keep):
-            LOG.log_err("Failed to transfer: %s" % ISSE.files)
+    elif isinstance(isse.files, str):
+        log.log_info("send %s%s" % (isse.target, isse.files))
+        if not transfer_file(isse, sftp, log, job, isse.files,
+                             isse.keep):
+            log.log_err("Failed to transfer: %s" % isse.files)
 
-    JOB.log_close()
+    job.log_close()
 
-    if ISSE.keep:
-        gen_libs.mv_file2(job_path, ISSE.complete_dir)
+    if isse.keep:
+        gen_libs.mv_file2(job_path, isse.complete_dir)
 
     else:
         err_flag, err_msg = gen_libs.rm_file(job_path)
 
         if err_flag:
-            LOG.log_warn("%s" % str(err_msg))
+            log.log_warn("%s" % str(err_msg))
 
 
 def process_images(MOVE_FILE, LOG, **kwargs):
