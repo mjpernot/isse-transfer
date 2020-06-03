@@ -29,6 +29,7 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import isse_guard_transfer
+import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -42,6 +43,10 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialize testing environment.
+        test_backup_not_bool -> Test with backup is not boolean.
+        test_status_false3 -> Test with third status flag set to false.
+        test_status_false2 -> Test with second status flag set to false.
+        test_status_false -> Test with first status flag set to false.
         test_good_check -> Test with good directory checks.
 
     """
@@ -84,10 +89,100 @@ class UnitTest(unittest.TestCase):
 
         self.cfg = CfgTest()
         self.dissem_dir = "/path/dissem_dir/"
+        self.dissem_dir2 = "/path/dissem_dir"
         self.transfer_dir = "/path/transfer_dir/"
+        self.transfer_dir2 = "/path/transfer_dir"
         self.log_dir = "/path/log_dir/"
+        self.log_dir2 = "/path/log_dir"
         self.cfg_name = "config_file"
         self.cfg_dir = "/dirpath"
+
+    @mock.patch("isse_guard_transfer.gen_libs")
+    def test_backup_not_bool(self, mock_lib):
+
+        """Function:  test_backup_not_bool
+
+        Description:  Test with backup is not boolean.
+
+        Arguments:
+
+        """
+
+        self.cfg.backup = "A String"
+
+        mock_lib.load_module.return_value = self.cfg
+        mock_lib.chk_crt_dir.side_effect = [
+            (True, None), (True, None), (True, None)]
+
+        with gen_libs.no_std_out():
+            cfg, status_flag = isse_guard_transfer.load_cfg(self.cfg_name,
+                                                            self.cfg_dir)
+        self.assertEqual(
+            (cfg.dissem_dir, cfg.transfer_dir, cfg.log_dir, status_flag),
+            (self.dissem_dir, self.transfer_dir, self.log_dir, False))
+
+    @mock.patch("isse_guard_transfer.gen_libs")
+    def test_status_false3(self, mock_lib):
+
+        """Function:  test_status_false3
+
+        Description:  Test with third status flag set to false.
+
+        Arguments:
+
+        """
+
+        mock_lib.load_module.return_value = self.cfg
+        mock_lib.chk_crt_dir.side_effect = [
+            (True, None), (True, None), (False, "Error Message3")]
+
+        cfg, status_flag = isse_guard_transfer.load_cfg(self.cfg_name,
+                                                        self.cfg_dir)
+        self.assertEqual(
+            (cfg.dissem_dir, cfg.transfer_dir, cfg.log_dir, status_flag),
+            (self.dissem_dir, self.transfer_dir, self.log_dir2, False))
+
+    @mock.patch("isse_guard_transfer.gen_libs")
+    def test_status_false2(self, mock_lib):
+
+        """Function:  test_status_false2
+
+        Description:  Test with second status flag set to false.
+
+        Arguments:
+
+        """
+
+        mock_lib.load_module.return_value = self.cfg
+        mock_lib.chk_crt_dir.side_effect = [
+            (True, None), (False, "Error Message2"), (True, None)]
+
+        cfg, status_flag = isse_guard_transfer.load_cfg(self.cfg_name,
+                                                        self.cfg_dir)
+        self.assertEqual(
+            (cfg.dissem_dir, cfg.transfer_dir, cfg.log_dir, status_flag),
+            (self.dissem_dir, self.transfer_dir2, self.log_dir, False))
+
+    @mock.patch("isse_guard_transfer.gen_libs")
+    def test_status_false(self, mock_lib):
+
+        """Function:  test_status_false
+
+        Description:  Test with first status flag set to false.
+
+        Arguments:
+
+        """
+
+        mock_lib.load_module.return_value = self.cfg
+        mock_lib.chk_crt_dir.side_effect = [
+            (False, "Error Message1"), (True, None), (True, None)]
+
+        cfg, status_flag = isse_guard_transfer.load_cfg(self.cfg_name,
+                                                        self.cfg_dir)
+        self.assertEqual(
+            (cfg.dissem_dir, cfg.transfer_dir, cfg.log_dir, status_flag),
+            (self.dissem_dir2, self.transfer_dir, self.log_dir, False))
 
     @mock.patch("isse_guard_transfer.gen_libs")
     def test_good_check(self, mock_lib):
