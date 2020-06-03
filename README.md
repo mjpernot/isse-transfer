@@ -108,8 +108,6 @@ chmod 600 ssh_config.py
 
 # Unit Testing:
 
-### Description: Testing consists of unit testing for the functions in the isse_guard_transfer.py program.
-
 ### Installation:
 
 Install the program.
@@ -141,7 +139,6 @@ pip install -r requirements-python-lib.txt --target isse_lib/lib --trusted-host 
 pip install -r requirements-sftp-lib.txt --target sftp_lib --trusted-host pypi.appdev.proj.coe.ic.gov
 pip install -r requirements-python-lib.txt --target sftp_lib/lib --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
-
 
 ### Testing:
   * Replace **{Python_Project}** with the baseline path of the python program.
