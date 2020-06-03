@@ -42,7 +42,11 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialize testing environment.
+        test_transfer_fails -> Test with transfer fails.
+        test_make_hash -> Test with make hash set to True.
+        test_make_base64 -> Test with creating base64 file.
         test_one_file -> Test with one file check.
+        taerDown -> Clean up of unit testing.
 
     """
 
@@ -167,13 +171,90 @@ class UnitTest(unittest.TestCase):
 
                 self.sftp_dir = "/dir/path"
                 self.review_dir = "/dir/review_dir"
-                self.complete_dir = "/dir/complete_dir"
+                self.complete_dir = "test/unit/isse_guard_transfer/tmp"
 
         self.cfg_file = "file1.txt"
         self.cfg_dir = "/dir/path"
         self.sftp = SFTP(self.cfg_file, self.cfg_dir)
         self.isse = Isse()
         self.file_path = "/dirpath/file1.txt"
+        self.file_list = \
+            ["test/unit/isse_guard_transfer/basefiles/test_base64.txt"]
+        self.basefile = \
+            "test/unit/isse_guard_transfer/basefiles/test_base64_txt.64.txt"
+
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=False))
+    @mock.patch("isse_guard_transfer.gen_libs")
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_transfer_fails(self, mock_sftp, mock_isse, mock_log, mock_lib):
+
+        """Function:  test_transfer_fails
+
+        Description:  Test with transfer fails.
+
+        Arguments:
+
+        """
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_log.return_value = True
+        mock_lib.list_filter_files.return_value = ["file1.zip"]
+
+        self.assertEqual(isse_guard_transfer.process_files(
+            self.isse, self.sftp, mock_log, mock_log), 1)
+
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.gen_libs")
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_make_hash(self, mock_sftp, mock_isse, mock_log, mock_lib):
+
+        """Function:  test_make_hash
+
+        Description:  Test with make hash set to True.
+
+        Arguments:
+
+        """
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_log.return_value = True
+        mock_lib.list_filter_files.return_value = ["file1.zip"]
+        mock_lib.make_md5_hash.return_value = True
+
+        self.assertEqual(isse_guard_transfer.process_files(
+            self.isse, self.sftp, mock_log, mock_log, make_hash=True), 1)
+
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.gen_libs")
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_make_base64(self, mock_sftp, mock_isse, mock_log, mock_lib):
+
+        """Function:  test_make_base64
+
+        Description:  Test with creating base64 file.
+
+        Arguments:
+
+        """
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_log.return_value = True
+        mock_lib.list_filter_files.return_value = self.file_list
+
+        self.assertEqual(isse_guard_transfer.process_files(
+            self.isse, self.sftp, mock_log, mock_log, make_base64=True), 1)
 
     @mock.patch("isse_guard_transfer.transfer_file",
                 mock.Mock(return_value=True))
@@ -198,6 +279,20 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(isse_guard_transfer.process_files(
             self.isse, self.sftp, mock_log, mock_log), 1)
+
+    def tearDown(self):
+
+        """Function:  tearDown
+
+        Description:  Clean up of unit testing.
+
+        Arguments:
+
+        """
+
+        if os.path.isfile(self.basefile):
+            os.remove(self.basefile)
+        
 
 
 if __name__ == "__main__":
