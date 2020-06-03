@@ -534,38 +534,38 @@ def process_media(move_file, log, **kwargs):
         move_file.add_to_cleanup(file_path)
 
 
-def process_zip(MOVE_FILE, LOG, **kwargs):
+def process_zip(move_file, log, **kwargs):
 
     """Function:  process_zip
 
     Description:  Create a zip file of the files in the MOVE_FILE class.
 
     Arguments:
-        (input) MOVE_FILE -> Move_To_File class instance.
-        (input) LOG -> Log class instance.
+        (input) move_file -> Move_To_File class instance.
+        (input) log -> Log class instance.
 
     """
 
-    if MOVE_FILE.dissem_level in MOVE_FILE.dissem_list:
+    if move_file.dissem_level in move_file.dissem_list:
 
         # Do not create new zip if zip is newer than html.
-        if not os.path.isfile(MOVE_FILE.zip_file_path) \
-           or os.path.getctime(MOVE_FILE.cur_file_dir + "/" +
-                               MOVE_FILE.cur_file_name) \
-                > os.path.getctime(MOVE_FILE.zip_file_path):
+        if not os.path.isfile(move_file.zip_file_path) \
+           or os.path.getctime(move_file.cur_file_dir + "/" +
+                               move_file.cur_file_name) \
+                > os.path.getctime(move_file.zip_file_path):
 
-            gen_libs.make_zip(MOVE_FILE.zip_file_path, MOVE_FILE.cur_file_dir,
-                              MOVE_FILE.files_to_zip, is_rel_path=True)
+            gen_libs.make_zip(move_file.zip_file_path, move_file.cur_file_dir,
+                              move_file.files_to_zip, is_rel_path=True)
 
-            LOG.log_info("process_zip::created %s" % MOVE_FILE.zip_file_path)
+            log.log_info("process_zip::created %s" % move_file.zip_file_path)
 
         else:
-            LOG.log_warn("%s is newer than  %s" % (MOVE_FILE.zip_file_path,
-                                                   MOVE_FILE.cur_file_name))
+            log.log_warn("%s is newer than  %s" % (move_file.zip_file_path,
+                                                   move_file.cur_file_name))
 
     else:
-        LOG.log_warn("%s did not meet dissem_level" % MOVE_FILE.cur_file_name)
-        LOG.log_warn("\t Dissem: %s" % MOVE_FILE.dissem_level)
+        log.log_warn("%s did not meet dissem_level" % move_file.cur_file_name)
+        log.log_warn("\t Dissem: %s" % move_file.dissem_level)
 
 
 def cleanup(MOVE_FILE, LOG, **kwargs):
