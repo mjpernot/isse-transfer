@@ -1,3 +1,4 @@
+coverage==4.4.2
 mock==2.0.0
 paramiko==1.8.0
 pathlib2==2.3.0
