@@ -333,7 +333,7 @@ def process_files(isse, sftp, log, job, file_filter="*.zip", keep_file=False,
     return cnt
 
 
-def process(ISSE, SFTP, LOG, **kwargs):
+def process(isse, sftp, log, **kwargs):
 
     """Function:  process
 
@@ -341,9 +341,9 @@ def process(ISSE, SFTP, LOG, **kwargs):
         network to the ISSE Guard server.
 
     Arguments:
-        (input) ISSE -> ISSE Guard class instance.
-        (input) SFTP -> SFTP class instance.
-        (input) LOG -> Log class instance.
+        (input) isse -> ISSE Guard class instance.
+        (input) sftp -> SFTP class instance.
+        (input) log -> Log class instance.
         (input) **kwargs:
             pattern -> pattern matching string for other filenames
 
@@ -352,73 +352,73 @@ def process(ISSE, SFTP, LOG, **kwargs):
     file_cnt = 0
     keep_log = False
     pattern = kwargs.get("pattern", False)
-    JOB = gen_class.Logger(ISSE.job_log, ISSE.job_log, "INFO",
+    job = gen_class.Logger(isse.job_log, isse.job_log, "INFO",
                            "%(asctime)s%(message)s", "%m-%d-%YT%H:%M:%SZ|")
 
-    LOG.log_info("process::start")
-    LOG.log_info("Processing: %s %s" % (ISSE.network, ISSE.review_dir))
+    log.log_info("process::start")
+    log.log_info("Processing: %s %s" % (isse.network, isse.review_dir))
 
-    for f_type in ISSE.file_types:
-        file_cnt += process_files(ISSE, SFTP, LOG, JOB, f_type,
-                                  ISSE.backup, ISSE.file_types[f_type]["MD5"],
-                                  ISSE.file_types[f_type]["Base64"])
+    for f_type in isse.file_types:
+        file_cnt += process_files(isse, sftp, log, job, f_type,
+                                  isse.backup, isse.file_types[f_type]["MD5"],
+                                  isse.file_types[f_type]["Base64"])
 
     # Handle MD5 files after all other files have been processed.
-    if ISSE.network in ["SIPR", "CW"]:
-        process_files(ISSE, SFTP, LOG, JOB, "*.md5.txt", False, False)
+    if isse.network in ["SIPR", "CW"]:
+        process_files(isse, sftp, log, job, "*.md5.txt", False, False)
 
-    for item in ISSE.other_files:
+    for item in isse.other_files:
 
         if pattern and re.search(pattern, item):
-            file_cnt += process_files(ISSE, SFTP, LOG, JOB, item,
-                                      ISSE.other_files[item],
-                                      ISSE.other_file_types[item])
+            file_cnt += process_files(isse, sftp, log, job, item,
+                                      isse.other_files[item],
+                                      isse.other_file_types[item])
 
         elif pathlib2.Path(item).is_file():
 
-            if ISSE.other_file_types[item]:
+            if isse.other_file_types[item]:
                 hash_file = gen_libs.make_md5_hash(item)
-                LOG.log_info("Make hash => %s" % hash_file)
+                log.log_info("Make hash => %s" % hash_file)
 
-            if transfer_file(ISSE, SFTP, LOG, JOB, item,
-                             ISSE.other_files[item]):
+            if transfer_file(isse, sftp, log, job, item,
+                             isse.other_files[item]):
                 file_cnt += 1
 
             else:
-                LOG.log_err("Failed to transfer: %s" % item)
+                log.log_err("Failed to transfer: %s" % item)
 
         else:
-            LOG.log_info("Other_Files: processing %s" % item)
-            tmp_cnt = process_files(ISSE, SFTP, LOG, JOB, item,
-                                    ISSE.other_files[item],
-                                    ISSE.other_file_types[item])
+            log.log_info("Other_Files: processing %s" % item)
+            tmp_cnt = process_files(isse, sftp, log, job, item,
+                                    isse.other_files[item],
+                                    isse.other_file_types[item])
             file_cnt += tmp_cnt
-            LOG.log_info("Other_Files: %s count %s" % (item, tmp_cnt))
+            log.log_info("Other_Files: %s count %s" % (item, tmp_cnt))
 
     # Handle MD5 files after all other files have been processed.
-    if ISSE.network in ["SIPR", "CW"]:
-        process_files(ISSE, SFTP, LOG, JOB, "*.md5.txt", False, False)
+    if isse.network in ["SIPR", "CW"]:
+        process_files(isse, sftp, log, job, "*.md5.txt", False, False)
 
     if file_cnt == 0:
-        JOB.log_info("NOFILES")
+        job.log_info("NOFILES")
 
-    JOB.log_close()
+    job.log_close()
 
-    LOG.log_info("Processed file count: %s" % str(file_cnt))
+    log.log_info("Processed file count: %s" % str(file_cnt))
 
     # Do not send LastRun file to BICES.
-    if ISSE.network != "BICES":
-        if not transfer_file(ISSE, SFTP, LOG, None, ISSE.job_log,
+    if isse.network != "BICES":
+        if not transfer_file(isse, sftp, log, None, isse.job_log,
                              keep_log):
-            LOG.log_err("Failed to transfer: %s" % ISSE.job_log)
+            log.log_err("Failed to transfer: %s" % isse.job_log)
 
     else:
-        err_flag, err_msg = gen_libs.rm_file(ISSE.job_log)
+        err_flag, err_msg = gen_libs.rm_file(isse.job_log)
 
         if err_flag:
-            LOG.log_warn("%s" % str(err_msg))
+            log.log_warn("%s" % str(err_msg))
 
-    LOG.log_info("process::end %s: %s" % (ISSE.review_dir, str(file_cnt)))
+    log.log_info("process::end %s: %s" % (isse.review_dir, str(file_cnt)))
 
 
 def __send(ISSE, SFTP, LOG, **kwargs):
