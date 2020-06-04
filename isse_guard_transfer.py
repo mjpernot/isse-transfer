@@ -733,10 +733,10 @@ def initate_process(args_array, isse, **kwargs):
 
     """
 
+    args_array = dict(args_array)
     log = gen_class.Logger(isse.prog_log, isse.prog_log, "INFO",
                            "%(asctime)s %(levelname)s %(message)s",
                            "%Y-%m-%dT%H:%M:%SZ")
-
     str_val = "=" * 80
     log.log_info("%s Initialized" % isse.name)
     log.log_info("%s" % str_val)
@@ -745,7 +745,6 @@ def initate_process(args_array, isse, **kwargs):
     log.log_info("Complete Dir: %s" % isse.complete_dir)
     log.log_info("Job Log: %s" % isse.job_log)
     log.log_info("%s" % str_val)
-
     sftp = None
 
     if isse.action != "moveapproved":
