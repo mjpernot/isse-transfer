@@ -8,7 +8,11 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ### Fixed
 - process_media:  Incorrect reference to review_dir attribute.
 
+### Added
+- Added global variable for a printing template.
+
 ### Changed
+- 
 - initate_process:  Renamed \_\_send() to \_send().
 - \_\_send:  Renamed function to single underscore \_send().
 - main:  Changed variables name to standard naming convention.

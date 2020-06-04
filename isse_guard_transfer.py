@@ -90,6 +90,9 @@ import version
 
 __version__ = version.__version__
 
+# Global
+PRT_TEMPLATE = "Failed to transfer: %s"
+
 
 def help_message(**kwargs):
 
