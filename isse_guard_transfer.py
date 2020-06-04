@@ -770,7 +770,6 @@ def run_program(args_array, **kwargs):
 
     if not status_flag:
         print("Error:  Problem in configuration file.")
-        return
 
     else:
         try:
