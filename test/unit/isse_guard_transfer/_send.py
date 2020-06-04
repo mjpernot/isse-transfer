@@ -267,11 +267,11 @@ class UnitTest(unittest.TestCase):
                 self.backup = True
                 self.other_files = {"/dir/file.xml": True}
                 self.other_file_types = {"/dir/file.xml": True}
-                self.files = "file1.txt"
+                self.files = "file.txt"
                 self.keep = True
                 self.target = "target"
 
-        self.cfg_file = "file1.txt"
+        self.cfg_file = "file3.txt"
         self.cfg_dir = "/dir/path"
         self.sftp = SFTP(self.cfg_file, self.cfg_dir)
         self.isse = Isse()
