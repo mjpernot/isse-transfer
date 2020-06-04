@@ -171,7 +171,7 @@ class UnitTest(unittest.TestCase):
                 """
 
                 self.sftp_dir = "/dir/path"
-                self.complete_dir = "/dir/path"
+                self.complete_dir = "/dir/complete_dir"
 
         self.cfg_file = "file1.txt"
         self.cfg_dir = "/dir/path"
