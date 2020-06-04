@@ -7,6 +7,7 @@
 echo ""
 echo "Unit testing..."
 test/unit/isse_guard_transfer/_process_item.py
+test/unit/isse_guard_transfer/_remove_files.py
 test/unit/isse_guard_transfer/_send.py
 test/unit/isse_guard_transfer/cleanup.py
 test/unit/isse_guard_transfer/help_message.py
