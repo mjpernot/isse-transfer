@@ -238,9 +238,7 @@ def transfer_file(isse, sftp, log, job, file_path, keep_file=False, **kwargs):
             return False
 
         log.log_info("Transferred File: %s" % file_path)
-
-        if job:
-            job.log_info("%s" % file_name)
+        job.log_info("%s" % file_name)
 
         if keep_file:
             log.log_info("Move to complete: %s" % file_name)
