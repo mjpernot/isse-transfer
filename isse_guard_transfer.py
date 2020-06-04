@@ -225,15 +225,15 @@ def transfer_file(isse, sftp, log, job, file_path, keep_file=False, **kwargs):
             sftp.put_file(file_path, sftp.get_pwd() + "/" + file_name)
             log.log_info("... Transfer complete.")
 
+        elif not sftp.is_connected:
+            log.log_warn("SFTP Connection is not connected.")
+
+            return False
+
         else:
-
-            if not sftp.is_connected:
-                log.log_warn("SFTP Connection is not connected.")
-
-            else:
-                log.log_err("Directory paths do not match.")
-                log.log_err("\tDest Path: %s" % isse.sftp_dir)
-                log.log_err("\tCurrent Path: %s" % sftp.get_pwd())
+            log.log_err("Directory paths do not match.")
+            log.log_err("\tDest Path: %s" % isse.sftp_dir)
+            log.log_err("\tCurrent Path: %s" % sftp.get_pwd())
 
             return False
 
