@@ -364,8 +364,8 @@ def process(isse, sftp, log, **kwargs):
     log.log_info("Processing: %s %s" % (isse.network, isse.review_dir))
 
     for f_type in isse.file_types:
-        file_cnt += process_files(isse, sftp, log, job, f_type,
-                                  isse.backup, isse.file_types[f_type]["MD5"],
+        file_cnt += process_files(isse, sftp, log, job, f_type, isse.backup,
+                                  isse.file_types[f_type]["MD5"],
                                   isse.file_types[f_type]["Base64"])
 
     # Handle MD5 files after all other files have been processed.
@@ -414,6 +414,24 @@ def process(isse, sftp, log, **kwargs):
             log.log_warn("%s" % str(err_msg))
 
     log.log_info("process::end %s: %s" % (isse.review_dir, str(file_cnt)))
+
+
+def _remove_files(isse, log, **kwargs):
+
+    """Function:  _remove_files
+
+    Description:  Private function for process to decrease complexity.
+
+    Arguments:
+        (input) isse -> ISSE Guard class instance.
+        (input) log -> Log class instance.
+
+    """
+
+    err_flag, err_msg = gen_libs.rm_file(isse.job_log)
+
+    if err_flag:
+        log.log_warn("%s" % str(err_msg))
 
 
 def _process_item(isse, sftp, log, job, item, **kwargs):
