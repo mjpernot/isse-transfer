@@ -12,6 +12,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - Added global variable for a printing template.
 
 ### Changed
+- process:  Used global variable for template printing.
 - process_files:  Used global variable for template printing.
 - initate_process:  Renamed \_\_send() to \_send().
 - \_\_send:  Renamed function to single underscore \_send().

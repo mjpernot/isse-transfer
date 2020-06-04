@@ -354,6 +354,8 @@ def process(isse, sftp, log, **kwargs):
 
     """
 
+    global PRT_TEMPLATE
+
     file_cnt = 0
     keep_log = False
     pattern = kwargs.get("pattern", False)
@@ -390,7 +392,7 @@ def process(isse, sftp, log, **kwargs):
                 file_cnt += 1
 
             else:
-                log.log_err("Failed to transfer: %s" % item)
+                log.log_err(PRT_TEMPLATE % item)
 
         else:
             log.log_info("Other_Files: processing %s" % item)
@@ -415,7 +417,7 @@ def process(isse, sftp, log, **kwargs):
     if isse.network != "BICES":
         if not transfer_file(isse, sftp, log, None, isse.job_log,
                              keep_log):
-            log.log_err("Failed to transfer: %s" % isse.job_log)
+            log.log_err(PRT_TEMPLATE % isse.job_log)
 
     else:
         err_flag, err_msg = gen_libs.rm_file(isse.job_log)
