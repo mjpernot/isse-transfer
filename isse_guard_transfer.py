@@ -444,6 +444,8 @@ def _send(isse, sftp, log, **kwargs):
 
     """
 
+    global PRT_TEMPLATE
+
     # Make Job log name unique for Send to prevent conflict with other runs.
     job_path = os.path.dirname(isse.job_log) + os.path.sep + "Send-" \
         + os.path.basename(isse.job_log)
@@ -457,13 +459,13 @@ def _send(isse, sftp, log, **kwargs):
             log.log_info("send %s%s" % (isse.target, file_path))
             if not transfer_file(isse, sftp, log, job, file_path,
                                  isse.keep):
-                log.log_err("Failed to transfer: %s" % file_path)
+                log.log_err(PRT_TEMPLATE % file_path)
 
     elif isinstance(isse.files, str):
         log.log_info("send %s%s" % (isse.target, isse.files))
         if not transfer_file(isse, sftp, log, job, isse.files,
                              isse.keep):
-            log.log_err("Failed to transfer: %s" % isse.files)
+            log.log_err(PRT_TEMPLATE % isse.files)
 
     job.log_close()
 
