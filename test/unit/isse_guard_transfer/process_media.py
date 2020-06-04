@@ -200,7 +200,7 @@ class UnitTest(unittest.TestCase):
                 Description:  add_to_cleanup method.
 
                 Arguments:
-                    (input) filename -> File name.
+                    (input) dir_path -> Directory path.
 
                 """
 
