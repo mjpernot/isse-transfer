@@ -77,8 +77,8 @@ import sys
 import re
 
 # Third party
-import pathlib2
 import base64
+import pathlib2
 
 # Local
 import lib.arg_parser as arg_parser
@@ -561,7 +561,7 @@ def process_media(move_file, log, **kwargs):
         if os.path.splitext(file_path)[1] == ".pptx":
             log.log_info("process_media %s" % file_path)
             gen_libs.mv_file2(file_path, move_file.review_dir, move_file.org +
-                             "-" + move_file.tape_dir + "-" + file_name)
+                              "-" + move_file.tape_dir + "-" + file_name)
             log.log_info("process_media::moved %s" % file_path)
 
         else:
