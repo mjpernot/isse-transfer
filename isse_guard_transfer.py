@@ -421,9 +421,9 @@ def process(isse, sftp, log, **kwargs):
     log.log_info("process::end %s: %s" % (isse.review_dir, str(file_cnt)))
 
 
-def __send(isse, sftp, log, **kwargs):
+def _send(isse, sftp, log, **kwargs):
 
-    """Function:  __send
+    """Function:  _send
 
     Description:  Debugging option to test transferring files to the ISSE
         Guard.

@@ -9,6 +9,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - process_media:  Incorrect reference to review_dir attribute.
 
 ### Changed
+- \_\_send:  Renamed function to single underscore \_send().
 - main:  Changed variables name to standard naming convention.
 - run_program:  Changed variables name to standard naming convention.
 - initate_process:  Changed variables name to standard naming convention.
