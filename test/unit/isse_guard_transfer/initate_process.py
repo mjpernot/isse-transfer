@@ -403,7 +403,7 @@ class UnitTest(unittest.TestCase):
             self.assertFalse(isse_guard_transfer.initate_process(
                 self.args_array, self.isse))
 
-    @mock.patch("isse_guard_transfer.__send", mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer._send", mock.Mock(return_value=True))
     @mock.patch("isse_guard_transfer.move_to_reviewed",
                 mock.Mock(return_value=True))
     @mock.patch("isse_guard_transfer.set_sftp_conn")
