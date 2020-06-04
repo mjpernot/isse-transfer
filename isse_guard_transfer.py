@@ -380,17 +380,7 @@ def process(isse, sftp, log, **kwargs):
                                       isse.other_file_types[item])
 
         elif pathlib2.Path(item).is_file():
-
-            if isse.other_file_types[item]:
-                hash_file = gen_libs.make_md5_hash(item)
-                log.log_info("Make hash => %s" % hash_file)
-
-            if transfer_file(isse, sftp, log, job, item,
-                             isse.other_files[item]):
-                file_cnt += 1
-
-            else:
-                log.log_err(PRT_TEMPLATE % item)
+            file_cnt = _process_item(isse, sftp, log, job, file_cnt, item)
 
         else:
             log.log_info("Other_Files: processing %s" % item)
