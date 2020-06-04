@@ -408,10 +408,7 @@ def process(isse, sftp, log, **kwargs):
             log.log_err(PRT_TEMPLATE % isse.job_log)
 
     else:
-        err_flag, err_msg = gen_libs.rm_file(isse.job_log)
-
-        if err_flag:
-            log.log_warn("%s" % str(err_msg))
+        _remove_files(isse, log)
 
     log.log_info("process::end %s: %s" % (isse.review_dir, str(file_cnt)))
 
