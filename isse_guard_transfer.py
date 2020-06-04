@@ -289,6 +289,8 @@ def process_files(isse, sftp, log, job, file_filter="*.zip", keep_file=False,
 
     """
 
+    global PRT_TEMPLATE
+
     str_val = "=" * 80
     file_list = gen_libs.list_filter_files(isse.review_dir, file_filter)
     cnt = len(file_list)
@@ -320,7 +322,7 @@ def process_files(isse, sftp, log, job, file_filter="*.zip", keep_file=False,
 
         if not transfer_file(isse, sftp, log, job, file_path,
                              keep_file):
-            log.log_err("Failed to transfer: %s" % file_path)
+            log.log_err(PRT_TEMPLATE % file_path)
 
         else:
             file_cnt += 1
