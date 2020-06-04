@@ -723,7 +723,7 @@ def initate_process(args_array, isse, **kwargs):
         print("NOTE:  Send option is for debugging purposes only.")
 
         if isse.files:
-            __send(isse, sftp, log)
+            _send(isse, sftp, log)
 
         else:
             print("ERROR:  Expected file path or array of file paths.")
