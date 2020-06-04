@@ -818,22 +818,20 @@ def main():
     # Process argument list from command line.
     args_array = arg_parser.arg_parse2(sys.argv, opt_val_list)
 
-    if not gen_libs.help_func(args_array, __version__, help_message):
-        if not arg_parser.arg_require(args_array, opt_req_list) \
-           and arg_parser.arg_valid_val(args_array, opt_valid_val) \
-           and not arg_parser.arg_dir_chk_crt(args_array, dir_chk_list):
+    if not gen_libs.help_func(args_array, __version__, help_message) \
+       and not arg_parser.arg_require(args_array, opt_req_list) \
+       and arg_parser.arg_valid_val(args_array, opt_valid_val) \
+       and not arg_parser.arg_dir_chk_crt(args_array, dir_chk_list):
 
-            try:
-                flavor_id = args_array.get("-A") + args_array.get("-N")
-                prog_lock = gen_class.ProgramLock(sys.argv, flavor_id)
+        try:
+            flavor_id = args_array.get("-A") + args_array.get("-N")
+            prog_lock = gen_class.ProgramLock(sys.argv, flavor_id)
+            run_program(args_array, pattern=pattern)
+            del prog_lock
 
-                run_program(args_array, pattern=pattern)
-
-                del prog_lock
-
-            except gen_class.SingleInstanceException:
-                print("WARNING:  Lock in place for: -A: %s  -N: %s"
-                      % (args_array.get("-A"), args_array.get("-N")))
+        except gen_class.SingleInstanceException:
+            print("WARNING:  Lock in place for: -A: %s  -N: %s"
+                  % (args_array.get("-A"), args_array.get("-N")))
 
 
 if __name__ == "__main__":
