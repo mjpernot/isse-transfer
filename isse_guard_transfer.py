@@ -426,6 +426,37 @@ def process(isse, sftp, log, **kwargs):
     log.log_info("process::end %s: %s" % (isse.review_dir, str(file_cnt)))
 
 
+def _process_item(isse, sftp, log, job, file_cnt, item, **kwargs):
+
+    """Function:  _process_item
+
+    Description:  Private function for process to decrease complexity.
+
+    Arguments:
+        (input) isse -> ISSE Guard class instance.
+        (input) sftp -> SFTP class instance.
+        (input) log -> Log class instance.
+        (input) job -> Log class instance.
+        (input) file_cnt -> Number of files processed.
+        (input) item -> File being processed.
+        (output) file_cnt -> Number of files processed.
+
+    """
+
+    if isse.other_file_types[item]:
+        hash_file = gen_libs.make_md5_hash(item)
+        log.log_info("Make hash => %s" % hash_file)
+
+    if transfer_file(isse, sftp, log, job, item,
+                     isse.other_files[item]):
+        file_cnt += 1
+
+    else:
+        log.log_err(PRT_TEMPLATE % item)
+
+    return file_cnt
+
+
 def _send(isse, sftp, log, **kwargs):
 
     """Function:  _send
