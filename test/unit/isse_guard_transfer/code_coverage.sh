@@ -9,7 +9,6 @@ coverage erase
 echo ""
 echo "Running unit test modules in conjunction with coverage"
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/_process_item.py
-coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/_process_other.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/_send.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/cleanup.py
 coverage run -a --source=isse_guard_transfer test/unit/isse_guard_transfer/help_message.py
