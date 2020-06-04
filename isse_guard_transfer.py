@@ -416,6 +416,30 @@ def process(isse, sftp, log, **kwargs):
     log.log_info("process::end %s: %s" % (isse.review_dir, str(file_cnt)))
 
 
+def _process_other(isse, sftp, log, job, item, **kwargs):
+
+    """Function:  _process_other
+
+    Description:  Private function for process to decrease complexity.
+
+    Arguments:
+        (input) isse -> ISSE Guard class instance.
+        (input) sftp -> SFTP class instance.
+        (input) log -> Log class instance.
+        (input) job -> Log class instance.
+        (input) item -> File being processed.
+        (output) cnt -> Number of files processed.
+
+    """
+
+    log.log_info("Other_Files: processing %s" % item)
+    cnt = process_files(isse, sftp, log, job, item, isse.other_files[item],
+                        isse.other_file_types[item])
+    log.log_info("Other_Files: %s count %s" % (item, cnt))
+
+    return cnt
+
+
 def _process_item(isse, sftp, log, job, item, **kwargs):
 
     """Function:  _process_item
