@@ -380,7 +380,7 @@ def process(isse, sftp, log, **kwargs):
                                       isse.other_file_types[item])
 
         elif pathlib2.Path(item).is_file():
-            file_cnt = _process_item(isse, sftp, log, job, file_cnt, item)
+            file_cnt += _process_item(isse, sftp, log, job, item)
 
         else:
             log.log_info("Other_Files: processing %s" % item)
@@ -416,7 +416,7 @@ def process(isse, sftp, log, **kwargs):
     log.log_info("process::end %s: %s" % (isse.review_dir, str(file_cnt)))
 
 
-def _process_item(isse, sftp, log, job, file_cnt, item, **kwargs):
+def _process_item(isse, sftp, log, job, item, **kwargs):
 
     """Function:  _process_item
 
@@ -427,9 +427,8 @@ def _process_item(isse, sftp, log, job, file_cnt, item, **kwargs):
         (input) sftp -> SFTP class instance.
         (input) log -> Log class instance.
         (input) job -> Log class instance.
-        (input) file_cnt -> Number of files processed.
         (input) item -> File being processed.
-        (output) file_cnt -> Number of files processed.
+        (output) cnt -> Number of files processed.
 
     """
 
@@ -439,12 +438,13 @@ def _process_item(isse, sftp, log, job, file_cnt, item, **kwargs):
 
     if transfer_file(isse, sftp, log, job, item,
                      isse.other_files[item]):
-        file_cnt += 1
+        cnt = 1
 
     else:
         log.log_err(PRT_TEMPLATE % item)
+        cnt = 0
 
-    return file_cnt
+    return cnt
 
 
 def _send(isse, sftp, log, **kwargs):
