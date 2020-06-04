@@ -383,12 +383,7 @@ def process(isse, sftp, log, **kwargs):
             file_cnt += _process_item(isse, sftp, log, job, item)
 
         else:
-            log.log_info("Other_Files: processing %s" % item)
-            tmp_cnt = process_files(isse, sftp, log, job, item,
-                                    isse.other_files[item],
-                                    isse.other_file_types[item])
-            file_cnt += tmp_cnt
-            log.log_info("Other_Files: %s count %s" % (item, tmp_cnt))
+            file_cnt += _process_other(isse, sftp, log, job, item)
 
     # Handle MD5 files after all other files have been processed.
     if isse.network in ["SIPR", "CW"]:
