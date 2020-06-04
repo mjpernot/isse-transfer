@@ -124,9 +124,7 @@ def load_cfg(cfg_name, cfg_dir, **kwargs):
     """
 
     status_flag = True
-
     cfg = gen_libs.load_module(cfg_name, cfg_dir)
-
     status, msg = gen_libs.chk_crt_dir(cfg.dissem_dir, write=True, read=True)
 
     if not status:
@@ -221,7 +219,6 @@ def transfer_file(isse, sftp, log, job, file_path, keep_file=False, **kwargs):
         if sftp.is_connected and isse.sftp_dir in sftp.get_pwd():
             log.log_info("Transfer => %s" % file_path)
             log.log_info("\tto -> %s" % isse.sftp_dir)
-
             sftp.put_file(file_path, sftp.get_pwd() + "/" + file_name)
             log.log_info("... Transfer complete.")
 
@@ -248,7 +245,6 @@ def transfer_file(isse, sftp, log, job, file_path, keep_file=False, **kwargs):
 
         else:
             log.log_info("Delete: %s" % file_name)
-
             err_flag, err_msg = gen_libs.rm_file(file_path)
 
             if err_flag:
@@ -304,14 +300,11 @@ def process_files(isse, sftp, log, job, file_filter="*.zip", keep_file=False,
             f_base, f_ext = os.path.splitext(file_path)
             base64_file = f_base + f_ext[:1].replace(".", "_") + f_ext[1:] \
                 + ".64.txt"
-
             log.log_info("Base64 convert: %s to %s" % (file_path, base64_file))
             base64.encode(open(file_path, 'rb'), open(base64_file, 'wb'))
-
             log.log_info("Move to complete: %s" % os.path.basename(file_path))
             gen_libs.mv_file2(file_path, isse.complete_dir)
             log.log_info("Move to completed: %s" % file_path)
-
             file_path = base64_file
 
         if make_hash:
@@ -359,11 +352,11 @@ def process(isse, sftp, log, **kwargs):
     pattern = kwargs.get("pattern", False)
     job = gen_class.Logger(isse.job_log, isse.job_log, "INFO",
                            "%(asctime)s%(message)s", "%m-%d-%YT%H:%M:%SZ|")
-
     log.log_info("process::start")
     log.log_info("Processing: %s %s" % (isse.network, isse.review_dir))
 
     for f_type in isse.file_types:
+
         file_cnt += process_files(isse, sftp, log, job, f_type, isse.backup,
                                   isse.file_types[f_type]["MD5"],
                                   isse.file_types[f_type]["Base64"])
@@ -398,11 +391,11 @@ def process(isse, sftp, log, **kwargs):
         job.log_info("NOFILES")
 
     job.log_close()
-
     log.log_info("Processed file count: %s" % str(file_cnt))
 
     # Do not send LastRun file to BICES.
     if isse.network != "BICES":
+
         if not transfer_file(isse, sftp, log, None, isse.job_log,
                              keep_log):
             log.log_err(PRT_TEMPLATE % isse.job_log)
@@ -491,12 +484,14 @@ def _send(isse, sftp, log, **kwargs):
 
         for file_path in isse.files:
             log.log_info("send %s%s" % (isse.target, file_path))
+
             if not transfer_file(isse, sftp, log, job, file_path,
                                  isse.keep):
                 log.log_err(PRT_TEMPLATE % file_path)
 
     elif isinstance(isse.files, str):
         log.log_info("send %s%s" % (isse.target, isse.files))
+
         if not transfer_file(isse, sftp, log, job, isse.files,
                              isse.keep):
             log.log_err(PRT_TEMPLATE % isse.files)
@@ -539,7 +534,6 @@ def process_images(move_file, log, **kwargs):
                                  image_name)
         move_file.add_to_cleanup(move_file.dissem_dir +
                                  "sgraphics/thumbnails/" + thumb_name)
-
         log.log_info("process_images::Files_To_Zip sgraphics/%s" % image_name)
         log.log_info("process_images::Files_To_Zip sgraphics/thumbnails/%s"
                      % thumb_name)
@@ -599,7 +593,6 @@ def process_zip(move_file, log, **kwargs):
 
             gen_libs.make_zip(move_file.zip_file_path, move_file.cur_file_dir,
                               move_file.files_to_zip, is_rel_path=True)
-
             log.log_info("process_zip::created %s" % move_file.zip_file_path)
 
         else:
@@ -627,7 +620,6 @@ def cleanup(move_file, log, **kwargs):
         status, err_msg = gen_libs.chk_crt_file(item, write=True, read=True)
 
         if status:
-
             err_flag, err_msg = gen_libs.rm_file(item)
 
             if err_flag:
@@ -652,22 +644,17 @@ def move_to_reviewed(isse, log, **kwargs):
 
     move = isse_guard_class.MoveTo(isse.dissem_dir)
     move.get_files()
-
     cnt = 0
     str_val = "=" * 80
-
     log.log_info("move_to_reviewed::start")
     log.log_info("Processing pre-approved files...")
     log.log_info("Pre-File Count: %s %s" % (str(len(move.file_list)),
                                             move.dissem_dir))
 
     for file_path in move.file_list:
-
         log.log_info("Processing: %s" % file_path)
-
         move_file = isse_guard_class.MoveToFile(file_path, isse.review_dir,
                                                 isse.dissem_dir)
-
         log.log_info("%s" % str_val)
         log.log_info("File_Name: %s" % move_file.cur_file_name)
         log.log_info("File_Dir: %s" % move_file.cur_file_dir)
@@ -675,14 +662,11 @@ def move_to_reviewed(isse, log, **kwargs):
         log.log_info("XML_File_Path: %s" % move_file.xml_file_path)
         log.log_info("XML_File_Name: %s" % move_file.xml_file_name)
         log.log_info("%s" % str_val)
-
         status, err_msg = gen_libs.chk_crt_file(move_file.xml_file_path,
                                                 write=True, read=True)
 
         if status:
-
             move_file.parse_xml_file()
-
             log.log_info("Product_Line: %s Image_Count: %s Media_Count: %s"
                          % (move_file.product_line, str(len(move_file.images)),
                             str(len(move_file.media))))
@@ -690,9 +674,7 @@ def move_to_reviewed(isse, log, **kwargs):
             if move_file.product_line in move_file.product_list:
                 log.log_info("Product_Line: %s processing..."
                              % move_file.product_line)
-
                 move_file.process_product()
-
                 log.log_info("Object_ID: %s Dissem_Level: %s"
                              % (move_file.object_id, move_file.dissem_level))
 
@@ -703,12 +685,10 @@ def move_to_reviewed(isse, log, **kwargs):
                                          move_file.cur_file_name)
                 move_file.add_to_cleanup(move_file.dissem_dir +
                                          move_file.xml_file_name)
-
                 log.log_info("move_to_reviewed::Files_To_Zip %s"
                              % move_file.cur_file_name)
                 log.log_info("move_to_reviewed::Files_To_Zip %s"
                              % move_file.xml_file_name)
-
                 process_images(move_file, log)
                 process_media(move_file, log)
                 process_zip(move_file, log)
