@@ -131,6 +131,10 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialize testing environment.
+        test_transfer_fail -> Test with file list failing transfer.
+        test_file_list -> Test with file list.
+        test_remove_fail -> Test with remove file failing.
+        test_remove_file -> Test with remove file.
         test_one_file -> Test with one file check.
 
     """
@@ -275,7 +279,110 @@ class UnitTest(unittest.TestCase):
                              "%m-%d-%YT%H:%M:%SZ|")
         self.file_path = "/dirpath/file1.txt"
 
-    @unittest.skip("Error:  Rename __send() to _send()")
+    @mock.patch("isse_guard_transfer.gen_libs.mv_file2",
+                mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=False))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_transfer_fail(self, mock_sftp, mock_isse, mock_job):
+
+        """Function:  test_transfer_fail
+
+        Description:  Test with file list but transfer fails.
+
+        Arguments:
+
+        """
+
+        self.isse.files = ["file1.txt", "file2.txt"]
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_job.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer._send(self.isse, self.sftp,
+                                                   self.logger))
+
+    @mock.patch("isse_guard_transfer.gen_libs.mv_file2",
+                mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_file_list(self, mock_sftp, mock_isse, mock_job):
+
+        """Function:  test_file_list
+
+        Description:  Test with file list.
+
+        Arguments:
+
+        """
+
+        self.isse.files = ["file1.txt", "file2.txt"]
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_job.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer._send(self.isse, self.sftp,
+                                                   self.logger))
+
+    @mock.patch("isse_guard_transfer.gen_libs.rm_file",
+                mock.Mock(return_value=(False, "Error Message")))
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=False))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_remove_fail(self, mock_sftp, mock_isse, mock_job):
+
+        """Function:  test_remove_fail
+
+        Description:  Test with remove file failing.
+
+        Arguments:
+
+        """
+
+        self.isse.keep = False
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_job.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer._send(self.isse, self.sftp,
+                                                   self.logger))
+
+    @mock.patch("isse_guard_transfer.gen_libs.rm_file",
+                mock.Mock(return_value=(True, None)))
+    @mock.patch("isse_guard_transfer.transfer_file",
+                mock.Mock(return_value=False))
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
+    @mock.patch("isse_guard_transfer.sftp_class.SFTP")
+    def test_remove_file(self, mock_sftp, mock_isse, mock_job):
+
+        """Function:  test_remove_file
+
+        Description:  Test with remove file.
+
+        Arguments:
+
+        """
+
+        self.isse.keep = False
+
+        mock_sftp.return_value = self.sftp
+        mock_isse.return_value = self.isse
+        mock_job.return_value = self.logger
+
+        self.assertFalse(isse_guard_transfer._send(self.isse, self.sftp,
+                                                   self.logger))
+
     @mock.patch("isse_guard_transfer.gen_libs.mv_file2",
                 mock.Mock(return_value=True))
     @mock.patch("isse_guard_transfer.transfer_file",
