@@ -275,9 +275,6 @@ class UnitTest(unittest.TestCase):
                              "%m-%d-%YT%H:%M:%SZ|")
         self.job = Logger("Name", "Name", "INFO", "%(asctime)s%(message)s",
                           "%m-%d-%YT%H:%M:%SZ|")
-        #self.other_files = \
-        #    {"test/unit/isse_guard_transfer/basefiles/proc.txt": True}
-        self.file_cnt = 0
         self.item = "test/unit/isse_guard_transfer/basefiles/proc.txt"
 
     @mock.patch("isse_guard_transfer.gen_libs.make_md5_hash",
@@ -295,8 +292,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.assertEqual(isse_guard_transfer._process_item(
-            self.isse, self.sftp, self.logger, self.job, self.file_cnt,
-            self.item), 1)
+            self.isse, self.sftp, self.logger, self.job, self.item), 1)
 
     @mock.patch("isse_guard_transfer.gen_libs.make_md5_hash",
                 mock.Mock(return_value="FileName"))
@@ -313,8 +309,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.assertEqual(isse_guard_transfer._process_item(
-            self.isse, self.sftp, self.logger, self.job, self.file_cnt,
-            self.item), 0)
+            self.isse, self.sftp, self.logger, self.job, self.item), 0)
 
 
 if __name__ == "__main__":
