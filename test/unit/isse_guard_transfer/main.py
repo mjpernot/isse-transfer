@@ -99,7 +99,7 @@ class UnitTest(unittest.TestCase):
                            "-N": "SIPR"}
         self.proglock = ProgramLock(["cmdline"], "FlavorID")
         self.args_array2 = {"-c": "CfgFile", "-d": "CfgDir", "-A": "send",
-                           "-N": "SIPR"}
+                            "-N": "SIPR"}
 
     @mock.patch("isse_guard_transfer.gen_libs.help_func")
     @mock.patch("isse_guard_transfer.arg_parser.arg_parse2")

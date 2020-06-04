@@ -293,7 +293,6 @@ class UnitTest(unittest.TestCase):
 
         if os.path.isfile(self.basefile):
             os.remove(self.basefile)
-        
 
 
 if __name__ == "__main__":
