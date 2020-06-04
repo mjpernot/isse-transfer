@@ -178,6 +178,7 @@ class UnitTest(unittest.TestCase):
         self.sftp = SFTP(self.cfg_file, self.cfg_dir)
         self.isse = Isse()
         self.file_path = "/dirpath/file1.txt"
+        self.filter_list = ["file1.zip"]
         self.file_list = \
             ["test/unit/isse_guard_transfer/basefiles/test_base64.txt"]
         self.basefile = \
@@ -202,7 +203,7 @@ class UnitTest(unittest.TestCase):
         mock_sftp.return_value = self.sftp
         mock_isse.return_value = self.isse
         mock_log.return_value = True
-        mock_lib.list_filter_files.return_value = ["file1.zip"]
+        mock_lib.list_filter_files.return_value = self.filter_list
 
         self.assertEqual(isse_guard_transfer.process_files(
             self.isse, self.sftp, mock_log, mock_log), 1)
@@ -226,7 +227,7 @@ class UnitTest(unittest.TestCase):
         mock_sftp.return_value = self.sftp
         mock_isse.return_value = self.isse
         mock_log.return_value = True
-        mock_lib.list_filter_files.return_value = ["file1.zip"]
+        mock_lib.list_filter_files.return_value = self.filter_list
         mock_lib.make_md5_hash.return_value = True
 
         self.assertEqual(isse_guard_transfer.process_files(
@@ -275,7 +276,7 @@ class UnitTest(unittest.TestCase):
         mock_sftp.return_value = self.sftp
         mock_isse.return_value = self.isse
         mock_log.return_value = True
-        mock_lib.list_filter_files.return_value = ["file1.zip"]
+        mock_lib.list_filter_files.return_value = self.filter_list
 
         self.assertEqual(isse_guard_transfer.process_files(
             self.isse, self.sftp, mock_log, mock_log), 1)
