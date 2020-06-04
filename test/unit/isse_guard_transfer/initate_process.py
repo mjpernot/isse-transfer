@@ -132,6 +132,10 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialize testing environment.
+        test_action_wrong -> Test with incorrect action set.
+        test_sftp_fail -> Test with sftp fails change directory.
+        test_sftp_down -> Test with sftp connection down.
+        test_send_no_files -> Test with send option, but no files.
         test_send -> Test with send option.
         test_move -> Test with move approved option.
         test_one_file -> Test with one file check.
@@ -306,6 +310,98 @@ class UnitTest(unittest.TestCase):
         self.logger = Logger("Name", "Name", "INFO", "%(asctime)s%(message)s",
                              "%m-%d-%YT%H:%M:%SZ|")
         self.file_path = "/dirpath/file1.txt"
+
+    @mock.patch("isse_guard_transfer.set_sftp_conn")
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    def test_action_wrong(self, mock_log, mock_ftp):
+
+        """Function:  test_action_wrong
+
+        Description:  Test with incorrect action set.
+
+        Arguments:
+
+        """
+
+        self.isse.action = "bad_action"
+
+        mock_ftp.return_value = (self.sftp, True)
+        mock_log.return_value = self.logger
+
+        with gen_libs.no_std_out():
+            self.assertFalse(isse_guard_transfer.initate_process(
+                self.args_array, self.isse))
+
+    @mock.patch("isse_guard_transfer.move_to_reviewed",
+                mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.set_sftp_conn")
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    def test_sftp_fail(self, mock_log, mock_ftp):
+
+        """Function:  test_sftp_fail
+
+        Description:  Test with sftp fails change directory.
+
+        Arguments:
+
+        """
+
+        self.isse.action = "process"
+
+        mock_ftp.return_value = (self.sftp, False)
+        mock_log.return_value = self.logger
+
+        with gen_libs.no_std_out():
+            self.assertFalse(isse_guard_transfer.initate_process(
+                self.args_array, self.isse))
+
+    @mock.patch("isse_guard_transfer.move_to_reviewed",
+                mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.set_sftp_conn")
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    def test_sftp_down(self, mock_log, mock_ftp):
+
+        """Function:  test_sftp_down
+
+        Description:  Test with sftp connection down.
+
+        Arguments:
+
+        """
+
+        self.isse.action = "process"
+        self.sftp.is_connected = False
+
+        mock_ftp.return_value = (self.sftp, True)
+        mock_log.return_value = self.logger
+
+        with gen_libs.no_std_out():
+            self.assertFalse(isse_guard_transfer.initate_process(
+                self.args_array, self.isse))
+
+    @mock.patch("isse_guard_transfer.move_to_reviewed",
+                mock.Mock(return_value=True))
+    @mock.patch("isse_guard_transfer.set_sftp_conn")
+    @mock.patch("isse_guard_transfer.gen_class.Logger")
+    def test_send_no_files(self, mock_log, mock_ftp):
+
+        """Function:  test_send_no_files
+
+        Description:  Test with send option, but no files.
+
+        Arguments:
+
+        """
+
+        self.isse.action = "send"
+        self.isse.files = None
+
+        mock_ftp.return_value = (self.sftp, True)
+        mock_log.return_value = self.logger
+
+        with gen_libs.no_std_out():
+            self.assertFalse(isse_guard_transfer.initate_process(
+                self.args_array, self.isse))
 
     @mock.patch("isse_guard_transfer.__send", mock.Mock(return_value=True))
     @mock.patch("isse_guard_transfer.move_to_reviewed",
