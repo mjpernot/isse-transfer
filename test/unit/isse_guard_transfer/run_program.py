@@ -29,6 +29,7 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import isse_guard_transfer
+import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -70,7 +71,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialize testing environment.
-        test_one_file -> Test with one file check.
+        test_load_fails -> Test with load configuration fails.
+        test_create_isse -> Test with create isse class.
 
     """
 
@@ -111,15 +113,31 @@ class UnitTest(unittest.TestCase):
         self.args_array = {"-c": "config", "-d": "/path", "-N": "SIPR"}
         self.isse = Isse("Level", self.cfg, "process", None, False)
 
+    @mock.patch("isse_guard_transfer.load_cfg")
+    def test_load_fails(self, mock_cfg):
+
+        """Function:  test_load_fails
+
+        Description:  Test with load configuration fails.
+
+        Arguments:
+
+        """
+
+        mock_cfg.return_value = (self.cfg, False)
+
+        with gen_libs.no_std_out():
+            self.assertFalse(isse_guard_transfer.run_program(self.args_array))
+
     @mock.patch("isse_guard_transfer.initate_process",
                 mock.Mock(return_value=True))
     @mock.patch("isse_guard_transfer.load_cfg")
     @mock.patch("isse_guard_transfer.isse_guard_class.IsseGuard")
-    def test_one_file(self, mock_isse, mock_cfg):
+    def test_create_isse(self, mock_isse, mock_cfg):
 
-        """Function:  test_one_file
+        """Function:  test_create_isse
 
-        Description:  Test with one file check.
+        Description:  Test with create isse class.
 
         Arguments:
 
