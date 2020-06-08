@@ -189,6 +189,7 @@ def set_sftp_conn(isse, cfg_file, cfg_dir, log, **kwargs):
 
     else:
         log.log_err("SFTP open connection failed.")
+        status = False
 
     return sftp, status
 
