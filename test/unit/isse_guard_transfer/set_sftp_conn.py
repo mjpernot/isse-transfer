@@ -177,7 +177,7 @@ class UnitTest(unittest.TestCase):
         sftp, status = isse_guard_transfer.set_sftp_conn(
             self.isse, self.cfg_file, self.cfg_dir, mock_log)
 
-        self.assertEqual((sftp.is_connected, status), (False, True))
+        self.assertEqual((sftp.is_connected, status), (False, False))
 
     @mock.patch("isse_guard_transfer.gen_class.Logger")
     @mock.patch("isse_guard_transfer.sftp_class.SFTP")
