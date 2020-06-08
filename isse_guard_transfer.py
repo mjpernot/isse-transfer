@@ -822,6 +822,7 @@ def main():
 
     """
 
+    cmdline = gen_libs.get_inst(sys)
     dir_chk_list = ["-d"]
     opt_req_list = ["-N", "-c", "-d", "-s"]
     opt_val_list = ["-A", "-N", "-c", "-d", "-f", "-k", "-s"]
@@ -829,7 +830,7 @@ def main():
     pattern = "PULLED"
 
     # Process argument list from command line.
-    args_array = arg_parser.arg_parse2(sys.argv, opt_val_list)
+    args_array = arg_parser.arg_parse2(cmdline.argv, opt_val_list)
 
     if not gen_libs.help_func(args_array, __version__, help_message) \
        and not arg_parser.arg_require(args_array, opt_req_list) \
@@ -838,7 +839,7 @@ def main():
 
         try:
             flavor_id = args_array.get("-A") + args_array.get("-N")
-            prog_lock = gen_class.ProgramLock(sys.argv, flavor_id)
+            prog_lock = gen_class.ProgramLock(cmdline.argv, flavor_id)
             run_program(args_array, pattern=pattern)
             del prog_lock
 

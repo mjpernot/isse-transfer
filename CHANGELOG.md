@@ -6,6 +6,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [3.0.4] - 2020-04-29
 ### Fixed
+- main:  Fixed handling command line arguments from SonarQube scan finding.
 - initate_process:  Fixed problem with mutable default arguments issue.
 - run_program:  Fixed problem with mutable default arguments issue.
 - process_media:  Incorrect reference to review_dir attribute.
