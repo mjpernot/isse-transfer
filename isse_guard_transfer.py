@@ -788,8 +788,7 @@ def run_program(args_array, **kwargs):
     else:
         try:
             isse = isse_guard_class.IsseGuard(
-                args_array["-N"], cfg,
-                action=args_array.get("-A", "process"),
+                args_array["-N"], cfg, action=args_array.get("-A", "process"),
                 files=args_array.get("-f", None),
                 keep=args_array.get("-k", False))
 
