@@ -1,9 +1,9 @@
 # SSH Configuration file
 # Classification (U)
 # Unclassified until filled.
-username = "<USERNAME>"
-password = "<USER_PASSWD>"
-host = "<SERVER_NAME>"
+username = "USERNAME"
+password = "PASSWORD"
+host = "HOSTNAME"
 port = 22
 # Log_File -> Directory path to where the Paramiko log file is being written to.
-log_file = "/<DIRECTORY_PATH>/paramiko.log"
+log_file = "DIRECTORY_PATH/paramiko.log"

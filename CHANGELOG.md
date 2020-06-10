@@ -4,8 +4,51 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.0.4] - 2020-04-29
+### Fixed
+- set_sftp_conn:  Set status to correct value if connection fails to open.
+- main:  Fixed handling command line arguments from SonarQube scan finding.
+- initate_process:  Fixed problem with mutable default arguments issue.
+- run_program:  Fixed problem with mutable default arguments issue.
+- process_media:  Incorrect reference to review_dir attribute.
+
+### Added
+- Added global variable for a printing template.
+- \_remove_files:  Private function for process to decrease complexity.
+- \_process_item:  Private function for process to decrease complexity.
+
+### Changed
+- process_images:  Replaced returning value with placeholder.
+- process:  Replaced section of code with call to \_remove_files function.
+- process:  Replaced section of code with call to \_process_item function.
+- transfer_file:  Refactored if statements.
+- transfer_file:  Removed check for job log.
+- main:  Refactored if statements.
+- run_program:  Removed redundant code.
+- \_send:  Used global variable for template printing.
+- process:  Used global variable for template printing.
+- process_files:  Used global variable for template printing.
+- initate_process:  Renamed \_\_send() to \_send().
+- \_\_send:  Renamed function to single underscore \_send().
+- main:  Changed variables name to standard naming convention.
+- run_program:  Changed variables name to standard naming convention.
+- initate_process:  Changed variables name to standard naming convention.
+- move_to_reviewed:  Changed variables name to standard naming convention.
+- cleanup:  Changed variables name to standard naming convention.
+- process_zip:  Changed variables name to standard naming convention.
+- process_media:  Changed variables name to standard naming convention.
+- process_images:  Changed variables name to standard naming convention.
+- \_\_send:  Changed variables name to standard naming convention.
+- process:  Changed variables name to standard naming convention.
+- process_files:  Changed variables name to standard naming convention.
+- transfer_file:  Changed variables name to standard naming convention.
+- set_sftp_conn:  Changed variables name to standard naming convention.
+- Documentation updates.
+
+
 ## [3.0.3] - 2018-11-26
 ### Changed
+- transfer_file: Added \*\*kwargs to parameter list.
 - Documentation updates.
 
 
@@ -13,7 +56,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ### Fixed
 - transfer_file:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
 - process_files:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
-- __send:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
+- \_\_send:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
 - process_media:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
 
 
