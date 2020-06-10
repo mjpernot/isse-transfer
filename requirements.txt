@@ -1,7 +1,8 @@
-mock>=2.0.0
+coverage==4.4.2
+mock==2.0.0
 paramiko==1.8.0
-pathlib2>=2.3.0
+pathlib2==2.3.0
 pycrypto==2.3
-scandir>=1.5
+scandir==1.5
 simplejson==2.0.9
 unittest2>=1.1.0
