@@ -18,6 +18,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - \_process_item:  Private function for process to decrease complexity.
 
 ### Changed
+- process_images:  Replaced returning value with placeholder.
 - process:  Replaced section of code with call to \_remove_files function.
 - process:  Replaced section of code with call to \_process_item function.
 - transfer_file:  Refactored if statements.

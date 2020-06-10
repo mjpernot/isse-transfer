@@ -524,7 +524,7 @@ def process_images(move_file, log, **kwargs):
     log.log_info("process_images::start %s" % str(len(move_file.images)))
 
     for item in move_file.images:
-        file_base, file_ext = os.path.splitext(item)
+        file_base, _ = os.path.splitext(item)
         image_name = os.path.basename(item)
         thumb_name = file_base + ".jpg"
 
