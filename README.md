@@ -77,15 +77,15 @@ cp ssh_config.py.TEMPLATE ssh_config.py
 
 Make the appropriate change to the configuration environments for each config file.
  * Isse_Guard.py configuration file:
-   - dissem_dir = "Base directory path for the moveapproved option"
-   - transfer_dir = "Base directory path to where the different security transfer directories are located"
-   - log_dir = "Directory path to where the program log will be written to"
+   - dissem_dir = "DIRECTORY_PATH"
+   - transfer_dir = "DIRECTORY_PATH"
+   - log_dir = a"DIRECTORY_PATH"
 
  * SSH_Config.py configutation file:
    - username = "USERNAME"
    - password = "PASSWORD"
    - host = "HOSTNAME"
-   - log_file = "Directory path and file name to where the Paramiko log will be written to"
+   - log_file = "DIRECTORY_PATH/paramiko.log"
 
 ```
 vim isse_guard.py
