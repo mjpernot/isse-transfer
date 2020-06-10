@@ -2,8 +2,8 @@
 # Classification (U)
 # Unclassified until filled.
 username = "USERNAME"
-password = "USER_PSWD"
-host = "SERVER_NAME"
+password = "PASSWORD"
+host = "HOSTNAME"
 port = 22
 # Log_File -> Directory path to where the Paramiko log file is being written to.
 log_file = "DIRECTORY_PATH/paramiko.log"
