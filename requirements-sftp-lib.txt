@@ -1,1 +1,1 @@
-git+ssh://git@sc.appdev.proj.coe.ic.gov/JAC-DSXD/sftp-lib.git@2.0.5#egg=sftp-lib
+git+ssh://git@sc.appdev.proj.coe.ic.gov/JAC-DSXD/sftp-lib.git@2.0.3#egg=sftp-lib
