@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.0.5] - 2021-10-15
+
+
 ## [3.0.4] - 2020-04-29
 ### Fixed
 - set_sftp_conn:  Set status to correct value if connection fails to open.
