@@ -27,11 +27,9 @@
     - python-pip
 
   * Local class/library dependencies within the program structure.
-    - lib/gen_class
-    - lib/arg_parser
-    - lib/gen_libs
-    - isse_lib/isse_guard_class
-    - sftp_lib/sftp_class
+    - python-lib
+    - isse-lib
+    - sftp-lib
 
 
 # Installation:
