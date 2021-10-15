@@ -96,7 +96,7 @@ __version__ = version.__version__
 PRT_TEMPLATE = "Failed to transfer: %s"
 
 
-def help_message(**kwargs):
+def help_message():
 
     """Function:  help_message
 
@@ -110,7 +110,7 @@ def help_message(**kwargs):
     print(__doc__)
 
 
-def load_cfg(cfg_name, cfg_dir, **kwargs):
+def load_cfg(cfg_name, cfg_dir):
 
     """Function:  load_cfg
 
@@ -158,7 +158,7 @@ def load_cfg(cfg_name, cfg_dir, **kwargs):
     return cfg, status_flag
 
 
-def set_sftp_conn(isse, cfg_file, cfg_dir, log, **kwargs):
+def set_sftp_conn(isse, cfg_file, cfg_dir, log):
 
     """Function:  set_sftp_conn
 
@@ -196,7 +196,7 @@ def set_sftp_conn(isse, cfg_file, cfg_dir, log, **kwargs):
     return sftp, status
 
 
-def transfer_file(isse, sftp, log, job, file_path, keep_file=False, **kwargs):
+def transfer_file(isse, sftp, log, job, file_path, keep_file=False):
 
     """Function:  transfer_file
 
@@ -419,7 +419,7 @@ def process(isse, sftp, log, **kwargs):
     log.log_info("process::end %s: %s" % (isse.review_dir, str(file_cnt)))
 
 
-def _remove_files(isse, log, **kwargs):
+def _remove_files(isse, log):
 
     """Function:  _remove_files
 
@@ -437,7 +437,7 @@ def _remove_files(isse, log, **kwargs):
         log.log_warn("%s" % str(err_msg))
 
 
-def _process_item(isse, sftp, log, job, item, **kwargs):
+def _process_item(isse, sftp, log, job, item):
 
     """Function:  _process_item
 
@@ -468,7 +468,7 @@ def _process_item(isse, sftp, log, job, item, **kwargs):
     return cnt
 
 
-def _send(isse, sftp, log, **kwargs):
+def _send(isse, sftp, log):
 
     """Function:  _send
 
@@ -521,7 +521,7 @@ def _send(isse, sftp, log, **kwargs):
             log.log_warn("%s" % str(err_msg))
 
 
-def process_images(move_file, log, **kwargs):
+def process_images(move_file, log):
 
     """Function:  process_images
 
@@ -552,7 +552,7 @@ def process_images(move_file, log, **kwargs):
                      % thumb_name)
 
 
-def process_media(move_file, log, **kwargs):
+def process_media(move_file, log):
 
     """Function:  process_media
 
@@ -584,7 +584,7 @@ def process_media(move_file, log, **kwargs):
         move_file.add_to_cleanup(file_path)
 
 
-def process_zip(move_file, log, **kwargs):
+def process_zip(move_file, log):
 
     """Function:  process_zip
 
@@ -617,7 +617,7 @@ def process_zip(move_file, log, **kwargs):
         log.log_warn("\t Dissem: %s" % move_file.dissem_level)
 
 
-def cleanup(move_file, log, **kwargs):
+def cleanup(move_file, log):
 
     """Function:  cleanup
 
@@ -642,7 +642,7 @@ def cleanup(move_file, log, **kwargs):
                 log.log_info("cleanup::deleted %s" % item)
 
 
-def move_to_reviewed(isse, log, **kwargs):
+def move_to_reviewed(isse, log):
 
     """Function:  move_to_reviewed
 

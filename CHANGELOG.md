@@ -8,6 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ### Changed
 - process:  Changed positional args to keywords args in process_files call.
 - process_files:  Moved a number of positional args to keyword args.
+- Removed non-required \*\*kwargs entries.
 - Documentation updates.
 
 
