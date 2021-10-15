@@ -296,7 +296,6 @@ def process_files(isse, sftp, log, job, **kwargs):
     file_list = gen_libs.list_filter_files(isse.review_dir, file_filter)
     cnt = len(file_list)
     file_cnt = 0
-
     log.log_info("process_files::start")
     log.log_info("Pre-count %s: %s files" % (file_filter, str(cnt)))
 
@@ -364,35 +363,42 @@ def process(isse, sftp, log, **kwargs):
 
     for f_type in isse.file_types:
 
-        file_cnt += process_files(isse, sftp, log, job, f_type, isse.backup,
-                                  isse.file_types[f_type]["MD5"],
-                                  isse.file_types[f_type]["Base64"])
+        file_cnt += process_files(
+            isse, sftp, log, job, file_filter=f_type, keep_file=isse.backup,
+            make_hash=isse.file_types[f_type]["MD5"],
+            make_base64=isse.file_types[f_type]["Base64"])
 
     # Handle MD5 files after all other files have been processed.
     if isse.network in ["SIPR", "CW"]:
-        process_files(isse, sftp, log, job, "*.md5.txt", False, False)
+        process_files(
+            isse, sftp, log, job, file_filter="*.md5.txt", keep_file=False,
+            make_hash=False)
 
     for item in isse.other_files:
 
         if pattern and re.search(pattern, item):
-            file_cnt += process_files(isse, sftp, log, job, item,
-                                      isse.other_files[item],
-                                      isse.other_file_types[item])
+            file_cnt += process_files(
+                isse, sftp, log, job, file_filter=item,
+                keep_file=isse.other_files[item],
+                make_hash=isse.other_file_types[item])
 
         elif pathlib2.Path(item).is_file():
             file_cnt += _process_item(isse, sftp, log, job, item)
 
         else:
             log.log_info("Other_Files: processing %s" % item)
-            tmp_cnt = process_files(isse, sftp, log, job, item,
-                                    isse.other_files[item],
-                                    isse.other_file_types[item])
+            tmp_cnt = process_files(
+                isse, sftp, log, job, file_filter=item,
+                keep_file=isse.other_files[item],
+                make_hash=isse.other_file_types[item])
             file_cnt += tmp_cnt
             log.log_info("Other_Files: %s count %s" % (item, tmp_cnt))
 
     # Handle MD5 files after all other files have been processed.
     if isse.network in ["SIPR", "CW"]:
-        process_files(isse, sftp, log, job, "*.md5.txt", False, False)
+        process_files(
+            isse, sftp, log, job, file_filter="*.md5.txt", keep_file=False,
+            make_hash=False)
 
     if file_cnt == 0:
         job.log_info("NOFILES")
