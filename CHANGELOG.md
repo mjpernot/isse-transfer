@@ -6,6 +6,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [3.0.5] - 2021-10-15
 ### Changed
+- process_files:  Moved a number of positional args to keyword args.
 - Documentation updates.
 
 

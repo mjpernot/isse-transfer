@@ -264,8 +264,7 @@ def transfer_file(isse, sftp, log, job, file_path, keep_file=False, **kwargs):
     return True
 
 
-def process_files(isse, sftp, log, job, file_filter="*.zip", keep_file=False,
-                  make_hash=False, make_base64=False, **kwargs):
+def process_files(isse, sftp, log, job, **kwargs):
 
     """Function:  process_files
 
@@ -278,16 +277,21 @@ def process_files(isse, sftp, log, job, file_filter="*.zip", keep_file=False,
         (input) sftp -> SFTP class instance.
         (input) log -> Log class instance.
         (input) job -> Log class instance.
-        (input) file_filter -> File name or wildcard expansion file name.
-        (input) keep_file -> True|False - on whether to archive the file.
-        (input) make_hash -> True|False - create a MD5 hash for the file.
-        (input) make_base64 -> True|False - convert file to base64 format.
+        (input) **kwargs:
+            file_filter -> File name or wildcard expansion file name.
+            keep_file -> True|False - on whether to archive the file.
+            make_hash -> True|False - create a MD5 hash for the file.
+            make_base64 -> True|False - convert file to base64 format.
         (output) cnt -> Number of files processed.
 
     """
 
     global PRT_TEMPLATE
 
+    file_filter = kwargs.get("file_filter", "*.zip")
+    keep_file = kwargs.get("keep_file", False)
+    make_hash = kwargs.get("make_hash", False)
+    make_base64 = kwargs.get("make_base64", False)
     str_val = "=" * 80
     file_list = gen_libs.list_filter_files(isse.review_dir, file_filter)
     cnt = len(file_list)
