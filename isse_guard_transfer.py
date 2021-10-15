@@ -10,25 +10,27 @@
 
     Usage:
         isse_guard_transfer.py -c file | -d path | -s file |
-            -A {process | moveapproved | send} [-f {path | [path1, path2]} |
+            -A {process | moveapproved | send -f {path | [path1, path2]} |
             -N {SIPR | CW | BICES} |
             -k {True | False}
             [-v | -h]
 
     Arguments:
+        -c file => ISSE Guard configuration file.  Required argument.
+        -d dir path => Directory path for option '-c'. Required argument.
+        -s file => SFTP configuration file.  Required argument.
+        -N value => Target network to transfer to.  Required argument.
+            Values:  SIPR | CW | BICES
+
         -A {process | moveapproved | send} => Action to perform.
             process -> Process files in a "reviewed" directory and ftp them to
                 an ISSE Guard server.
             moveapproved -> Process files in an "IS" directory, package them
                 up, and move them to a "reviewed" directory.
             send -> Do not use.  Used for debugging purposes only.
-        -s file => SFTP configuration file.  Required argument.
-        -N value => Target network to transfer to.  Required argument.
-            Values:  SIPR | CW | BICES
-        -c file => ISSE Guard configuration file.  Required argument.
-        -d dir path => Directory path for option '-c'. Required argument.
-        -f path | [path1, path2, ...] => File path or array of filepaths.
-            Required for the 'send' option for the -A argument.
+            -f path | [path1, path2, ...] => File path or array of filepaths.
+                Required for the 'send' option for the -A argument.
+
         -k True | False => Archive the source files from the files argument,
             otherwise they will be deleted.
         -v => Display version of this program.
