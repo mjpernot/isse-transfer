@@ -41,12 +41,12 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialize testing environment.
-        test_transfer_fails -> Test with transfer fails.
-        test_make_hash -> Test with make hash set to True.
-        test_make_base64 -> Test with creating base64 file.
-        test_one_file -> Test with one file check.
-        taerDown -> Clean up of unit testing.
+        setUp
+        test_transfer_fails
+        test_make_hash
+        test_make_base64
+        test_one_file
+        taerDown
 
     """
 
@@ -67,11 +67,11 @@ class UnitTest(unittest.TestCase):
             Description:  Class which is a representation of SFTP class.
 
             Methods:
-                __init__ -> Initialize configuration environment.
-                open_conn -> open_conn method.
-                chg_dir -> chg_dir method.
-                get_pwd -> get_pwd method.
-                put_file -> put_file method.
+                __init__
+                open_conn
+                chg_dir
+                get_pwd
+                put_file
 
             """
 
@@ -82,8 +82,6 @@ class UnitTest(unittest.TestCase):
                 Description:  Initialization instance of the IsseGuard class.
 
                 Arguments:
-                    (input) cfg_file -> SFTP configuration file.
-                    (input) cfg_dir -> Path to SFTP configuration file.
 
                 """
 
@@ -113,7 +111,6 @@ class UnitTest(unittest.TestCase):
                 Description:  chg_dir method.
 
                 Arguments:
-                    (input) dir_path -> Directory path.
 
                 """
 
@@ -155,7 +152,7 @@ class UnitTest(unittest.TestCase):
             Description:  Class which is a representation of IsseGuard class.
 
             Methods:
-                __init__ -> Initialize configuration environment.
+                __init__
 
             """
 
