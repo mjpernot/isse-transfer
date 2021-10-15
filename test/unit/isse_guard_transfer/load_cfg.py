@@ -42,12 +42,12 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialize testing environment.
-        test_backup_not_bool -> Test with backup is not boolean.
-        test_status_false3 -> Test with third status flag set to false.
-        test_status_false2 -> Test with second status flag set to false.
-        test_status_false -> Test with first status flag set to false.
-        test_good_check -> Test with good directory checks.
+        setUp
+        test_backup_not_bool
+        test_status_false3
+        test_status_false2
+        test_status_false
+        test_good_check
 
     """
 
@@ -68,7 +68,7 @@ class UnitTest(unittest.TestCase):
             Description:  Class which is a representation of a cfg module.
 
             Methods:
-                __init__ -> Initialize configuration environment.
+                __init__
 
             """
 
