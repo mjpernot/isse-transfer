@@ -41,10 +41,10 @@ class SFTP(object):
     Description:  Class which is a representation of SFTP class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
-        open_conn -> open_conn method.
-        chg_dir -> chg_dir method.
-        get_pwd -> get_pwd method.
+        __init__
+        open_conn
+        chg_dir
+        get_pwd
 
     """
 
@@ -55,8 +55,8 @@ class SFTP(object):
         Description:  Initialization instance of the IsseGuard class.
 
         Arguments:
-            (input) cfg_file -> SFTP configuration file.
-            (input) cfg_dir -> Path to SFTP configuration file.
+            (input) cfg_file
+            (input) cfg_dir
 
         """
 
@@ -84,7 +84,6 @@ class SFTP(object):
         Description:  chg_dir method.
 
         Arguments:
-            (input) dir_path -> Directory path.
 
         """
 
@@ -112,10 +111,10 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialize testing environment.
-        test_no_connection -> Test with no connection to SFTP..
-        test_chg_dir_fails -> Test with change directory fails.
-        test_good_check -> Test with good directory checks.
+        setUp
+        test_no_connection
+        test_chg_dir_fails
+        test_good_check
 
     """
 
@@ -136,7 +135,7 @@ class UnitTest(unittest.TestCase):
             Description:  Class which is a representation of IsseGuard class.
 
             Methods:
-                __init__ -> Initialize configuration environment.
+                __init__
 
             """
 

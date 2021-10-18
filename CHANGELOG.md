@@ -4,12 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.0.5] - 2021-10-15
+### Changed
+- process:  Changed positional args to keywords args in process_files call.
+- process_files:  Moved a number of positional args to keyword args.
+- Removed non-required \*\*kwargs entries.
+- Documentation updates.
+
+
 ## [3.0.4] - 2020-04-29
 ### Fixed
 - set_sftp_conn:  Set status to correct value if connection fails to open.
 - main:  Fixed handling command line arguments from SonarQube scan finding.
-- initate_process:  Fixed problem with mutable default arguments issue.
-- run_program:  Fixed problem with mutable default arguments issue.
+- initate_process, run_program:  Fixed problem with mutable default arguments issue.
 - process_media:  Incorrect reference to review_dir attribute.
 
 ### Added
@@ -25,24 +32,10 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - transfer_file:  Removed check for job log.
 - main:  Refactored if statements.
 - run_program:  Removed redundant code.
-- \_send:  Used global variable for template printing.
-- process:  Used global variable for template printing.
-- process_files:  Used global variable for template printing.
+- \_send, process, process_files:  Used global variable for template printing.
 - initate_process:  Renamed \_\_send() to \_send().
 - \_\_send:  Renamed function to single underscore \_send().
-- main:  Changed variables name to standard naming convention.
-- run_program:  Changed variables name to standard naming convention.
-- initate_process:  Changed variables name to standard naming convention.
-- move_to_reviewed:  Changed variables name to standard naming convention.
-- cleanup:  Changed variables name to standard naming convention.
-- process_zip:  Changed variables name to standard naming convention.
-- process_media:  Changed variables name to standard naming convention.
-- process_images:  Changed variables name to standard naming convention.
-- \_\_send:  Changed variables name to standard naming convention.
-- process:  Changed variables name to standard naming convention.
-- process_files:  Changed variables name to standard naming convention.
-- transfer_file:  Changed variables name to standard naming convention.
-- set_sftp_conn:  Changed variables name to standard naming convention.
+- Changed variables name to standard naming convention to most of the functions.
 - Documentation updates.
 
 
@@ -54,10 +47,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [3.0.2] - 2018-05-25
 ### Fixed
-- transfer_file:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
-- process_files:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
-- \_\_send:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
-- process_media:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
+- transfer_file, process_files, \_\_send, process_media:  Changed "gen_libs.mv_file" to "gen_libs.mv_file2" call.
 
 
 ## [3.0.1] - 2018-05-17
@@ -70,9 +60,7 @@ Breaking Change
 
 ### Changed
 - Changed "gen_libs" calls to new naming schema.
-- move_to_reviewed:  Replaced Chk_Crt_File with chk_crt_file and changed logic check code.
-- cleanup:  Replaced Chk_Crt_File with chk_crt_file and changed logic check code.
-- transfer_file:  Replaced Chk_Crt_File with chk_crt_file and changed logic check code.
+- move_to_reviewed, cleanup, transfer_file:  Replaced Chk_Crt_File with chk_crt_file and changed logic check code.
 - load_cfg:  Replaced Chk_Crt_Dir with chk_crt_dir and changed logic check code.
 - Changed "arg_parser" calls to new naming schema.
 - Changed "isse_guard_class" calls to new naming schema.

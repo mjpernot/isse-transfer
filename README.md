@@ -27,17 +27,15 @@
     - python-pip
 
   * Local class/library dependencies within the program structure.
-    - lib/gen_class
-    - lib/arg_parser
-    - lib/gen_libs
-    - isse_lib/isse_guard_class
-    - sftp_lib/sftp_class
+    - python-lib
+    - isse-lib
+    - sftp-lib
 
 
 # Installation:
 
 Install the program.
-  * Replace **{Python_Project}** with the baseline path of the python program.
+  * From here on out, any reference to **{Python_Project}** or **PYTHON_PROJECT** replace with the baseline path of the python program.
 
 ```
 umask 022
@@ -67,7 +65,6 @@ pip install -r requirements-python-lib.txt --target sftp_lib/lib --trusted-host 
 # Configuration:
 
 Create ISSE Guard and SFTP configuration files.
-  * Replace **{Python_Project}** with the baseline path of the python program.
 
 ```
 cd config
@@ -97,7 +94,6 @@ chmod 600 ssh_config.py
 # Program Help Function:
 
   The program has a -h (Help option) that will show display an usage message.  The help message will usually consist of a description, usage, arugments to the program, example, notes about the program, and any known bugs not yet fixed.  To run the help command:
-  * Replace **{Python_Project}** with the baseline path of the python program.
 
 ```
 {Python_Project}/isse-transfer/isse_guard_transfer.py -h
@@ -110,38 +106,9 @@ chmod 600 ssh_config.py
 
 ### Installation:
 
-Install the program.
-  * Replace **{Python_Project}** with the baseline path of the python program.
-  * Replace **{Branch_Name}** with the name of the Git branch being tested.  See Git Merge Request.
-
-```
-umask 022
-cd {Python_Project}
-git clone --branch {Branch_Name} git@sc.appdev.proj.coe.ic.gov:JAC-DSXD/isse-transfer.git
-```
-
-Install/upgrade system modules.
-
-```
-cd isse-transfer
-sudo bash
-umask 022
-pip install -r requirements.txt --upgrade --trusted-host pypi.appdev.proj.coe.ic.gov
-exit
-```
-
-Install supporting classes and libraries.
-
-```
-pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appdev.proj.coe.ic.gov
-pip install -r requirements-isse-lib.txt --target isse_lib --trusted-host pypi.appdev.proj.coe.ic.gov
-pip install -r requirements-python-lib.txt --target isse_lib/lib --trusted-host pypi.appdev.proj.coe.ic.gov
-pip install -r requirements-sftp-lib.txt --target sftp_lib --trusted-host pypi.appdev.proj.coe.ic.gov
-pip install -r requirements-python-lib.txt --target sftp_lib/lib --trusted-host pypi.appdev.proj.coe.ic.gov
-```
+Install the project using the procedures in the Installation section.
 
 ### Testing:
-  * Replace **{Python_Project}** with the baseline path of the python program.
 
 ```
 cd {Python_Project}/isse-transfer
