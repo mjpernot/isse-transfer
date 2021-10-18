@@ -42,7 +42,7 @@ class Isse(object):
     Description:  Class which is a representation of IsseGuard class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -70,9 +70,9 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialize testing environment.
-        test_load_fails -> Test with load configuration fails.
-        test_create_isse -> Test with create isse class.
+        setUp
+        test_load_fails
+        test_create_isse
 
     """
 
@@ -93,7 +93,7 @@ class UnitTest(unittest.TestCase):
             Description:  Class which is a representation of a cfg module.
 
             Methods:
-                __init__ -> Initialize configuration environment.
+                __init__
 
             """
 

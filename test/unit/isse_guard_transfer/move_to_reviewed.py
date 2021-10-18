@@ -41,11 +41,11 @@ class Logger(object):
     Description:  Class which is a representation of gen_class.Logger class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
-        log_err -> log_err method.
-        log_warn -> log_warn method.
-        log_info -> log_info method.
-        log_close -> log_close method.
+        __init__
+        log_err
+        log_warn
+        log_info
+        log_close
 
     """
 
@@ -56,11 +56,11 @@ class Logger(object):
         Description:  Initialization instance of the IsseGuard class.
 
         Arguments:
-            (input) job_name -> Instance name.
-            (input) job_log -> Log name.
-            (input) log_type -> Log type.
-            (input) log_format -> Log format.
-            (input) log_time -> Time format.
+            (input) job_name
+            (input) job_log
+            (input) log_type
+            (input) log_format
+            (input) log_time
 
         """
 
@@ -78,7 +78,6 @@ class Logger(object):
         Description:  log_err method.
 
         Arguments:
-            (input) data -> Log entry.
 
         """
 
@@ -91,7 +90,6 @@ class Logger(object):
         Description:  log_warn method.
 
         Arguments:
-            (input) data -> Log entry.
 
         """
 
@@ -104,7 +102,6 @@ class Logger(object):
         Description:  log_info method.
 
         Arguments:
-            (input) data -> Log entry.
 
         """
 
@@ -130,8 +127,8 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialize testing environment.
-        test_one_file -> Test with one file check.
+        setUp
+        test_one_file
 
     """
 
@@ -152,7 +149,7 @@ class UnitTest(unittest.TestCase):
             Description:  Class which is a representation of IsseGuard class.
 
             Methods:
-                __init__ -> Initialize configuration environment.
+                __init__
 
             """
 
@@ -184,8 +181,8 @@ class UnitTest(unittest.TestCase):
             Description:  Class which is a representation of MoveTo class.
 
             Methods:
-                __init__ -> Initialize configuration environment.
-                get_files -> get_files method.
+                __init__
+                get_files
 
             """
 
@@ -196,7 +193,6 @@ class UnitTest(unittest.TestCase):
                 Description:  Initialization instance of the IsseGuard class.
 
                 Arguments:
-                    (input) dissem_level -> Dissemination level.
 
                 """
 
@@ -222,11 +218,11 @@ class UnitTest(unittest.TestCase):
             Description:  Class which is a representation of MoveToFile class.
 
             Methods:
-                __init__ -> Initialize configuration environment.
-                parse_xml_file -> parse_xml_file method.
-                process_product -> process_product method.
-                add_to_zip -> add_to_zip method.
-                add_to_cleanup -> add_to_cleanup method.
+                __init__
+                parse_xml_file
+                process_product
+                add_to_zip
+                add_to_cleanup
 
             """
 
@@ -237,9 +233,6 @@ class UnitTest(unittest.TestCase):
                 Description:  Initialization instance of the IsseGuard class.
 
                 Arguments:
-                    (input) file_path -> Directory and file name.
-                    (input) review_dir -> Review directory.
-                    (input) dissem_dir -> Dissemination directory.
 
                 """
 
@@ -290,7 +283,6 @@ class UnitTest(unittest.TestCase):
                 Description:  add_to_zip method.
 
                 Arguments:
-                    (input) dir_path -> File name.
 
                 """
 
@@ -305,7 +297,6 @@ class UnitTest(unittest.TestCase):
                 Description:  add_to_cleanup method.
 
                 Arguments:
-                    (input) dir_path -> File name.
 
                 """
 

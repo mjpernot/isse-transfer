@@ -10,25 +10,27 @@
 
     Usage:
         isse_guard_transfer.py -c file | -d path | -s file |
-            -A {process | moveapproved | send} [-f {path | [path1, path2]} |
+            -A {process | moveapproved | send -f {path | [path1, path2]} |
             -N {SIPR | CW | BICES} |
             -k {True | False}
             [-v | -h]
 
     Arguments:
+        -c file => ISSE Guard configuration file.  Required argument.
+        -d dir path => Directory path for option '-c'. Required argument.
+        -s file => SFTP configuration file.  Required argument.
+        -N value => Target network to transfer to.  Required argument.
+            Values:  SIPR | CW | BICES
+
         -A {process | moveapproved | send} => Action to perform.
             process -> Process files in a "reviewed" directory and ftp them to
                 an ISSE Guard server.
             moveapproved -> Process files in an "IS" directory, package them
                 up, and move them to a "reviewed" directory.
             send -> Do not use.  Used for debugging purposes only.
-        -s file => SFTP configuration file.  Required argument.
-        -N value => Target network to transfer to.  Required argument.
-            Values:  SIPR | CW | BICES
-        -c file => ISSE Guard configuration file.  Required argument.
-        -d dir path => Directory path for option '-c'. Required argument.
-        -f path | [path1, path2, ...] => File path or array of filepaths.
-            Required for the 'send' option for the -A argument.
+            -f path | [path1, path2, ...] => File path or array of filepaths.
+                Required for the 'send' option for the -A argument.
+
         -k True | False => Archive the source files from the files argument,
             otherwise they will be deleted.
         -v => Display version of this program.
@@ -94,7 +96,7 @@ __version__ = version.__version__
 PRT_TEMPLATE = "Failed to transfer: %s"
 
 
-def help_message(**kwargs):
+def help_message():
 
     """Function:  help_message
 
@@ -108,7 +110,7 @@ def help_message(**kwargs):
     print(__doc__)
 
 
-def load_cfg(cfg_name, cfg_dir, **kwargs):
+def load_cfg(cfg_name, cfg_dir):
 
     """Function:  load_cfg
 
@@ -156,7 +158,7 @@ def load_cfg(cfg_name, cfg_dir, **kwargs):
     return cfg, status_flag
 
 
-def set_sftp_conn(isse, cfg_file, cfg_dir, log, **kwargs):
+def set_sftp_conn(isse, cfg_file, cfg_dir, log):
 
     """Function:  set_sftp_conn
 
@@ -194,7 +196,7 @@ def set_sftp_conn(isse, cfg_file, cfg_dir, log, **kwargs):
     return sftp, status
 
 
-def transfer_file(isse, sftp, log, job, file_path, keep_file=False, **kwargs):
+def transfer_file(isse, sftp, log, job, file_path, keep_file=False):
 
     """Function:  transfer_file
 
@@ -262,8 +264,7 @@ def transfer_file(isse, sftp, log, job, file_path, keep_file=False, **kwargs):
     return True
 
 
-def process_files(isse, sftp, log, job, file_filter="*.zip", keep_file=False,
-                  make_hash=False, make_base64=False, **kwargs):
+def process_files(isse, sftp, log, job, **kwargs):
 
     """Function:  process_files
 
@@ -276,21 +277,25 @@ def process_files(isse, sftp, log, job, file_filter="*.zip", keep_file=False,
         (input) sftp -> SFTP class instance.
         (input) log -> Log class instance.
         (input) job -> Log class instance.
-        (input) file_filter -> File name or wildcard expansion file name.
-        (input) keep_file -> True|False - on whether to archive the file.
-        (input) make_hash -> True|False - create a MD5 hash for the file.
-        (input) make_base64 -> True|False - convert file to base64 format.
+        (input) **kwargs:
+            file_filter -> File name or wildcard expansion file name.
+            keep_file -> True|False - on whether to archive the file.
+            make_hash -> True|False - create a MD5 hash for the file.
+            make_base64 -> True|False - convert file to base64 format.
         (output) cnt -> Number of files processed.
 
     """
 
     global PRT_TEMPLATE
 
+    file_filter = kwargs.get("file_filter", "*.zip")
+    keep_file = kwargs.get("keep_file", False)
+    make_hash = kwargs.get("make_hash", False)
+    make_base64 = kwargs.get("make_base64", False)
     str_val = "=" * 80
     file_list = gen_libs.list_filter_files(isse.review_dir, file_filter)
     cnt = len(file_list)
     file_cnt = 0
-
     log.log_info("process_files::start")
     log.log_info("Pre-count %s: %s files" % (file_filter, str(cnt)))
 
@@ -358,35 +363,42 @@ def process(isse, sftp, log, **kwargs):
 
     for f_type in isse.file_types:
 
-        file_cnt += process_files(isse, sftp, log, job, f_type, isse.backup,
-                                  isse.file_types[f_type]["MD5"],
-                                  isse.file_types[f_type]["Base64"])
+        file_cnt += process_files(
+            isse, sftp, log, job, file_filter=f_type, keep_file=isse.backup,
+            make_hash=isse.file_types[f_type]["MD5"],
+            make_base64=isse.file_types[f_type]["Base64"])
 
     # Handle MD5 files after all other files have been processed.
     if isse.network in ["SIPR", "CW"]:
-        process_files(isse, sftp, log, job, "*.md5.txt", False, False)
+        process_files(
+            isse, sftp, log, job, file_filter="*.md5.txt", keep_file=False,
+            make_hash=False)
 
     for item in isse.other_files:
 
         if pattern and re.search(pattern, item):
-            file_cnt += process_files(isse, sftp, log, job, item,
-                                      isse.other_files[item],
-                                      isse.other_file_types[item])
+            file_cnt += process_files(
+                isse, sftp, log, job, file_filter=item,
+                keep_file=isse.other_files[item],
+                make_hash=isse.other_file_types[item])
 
         elif pathlib2.Path(item).is_file():
             file_cnt += _process_item(isse, sftp, log, job, item)
 
         else:
             log.log_info("Other_Files: processing %s" % item)
-            tmp_cnt = process_files(isse, sftp, log, job, item,
-                                    isse.other_files[item],
-                                    isse.other_file_types[item])
+            tmp_cnt = process_files(
+                isse, sftp, log, job, file_filter=item,
+                keep_file=isse.other_files[item],
+                make_hash=isse.other_file_types[item])
             file_cnt += tmp_cnt
             log.log_info("Other_Files: %s count %s" % (item, tmp_cnt))
 
     # Handle MD5 files after all other files have been processed.
     if isse.network in ["SIPR", "CW"]:
-        process_files(isse, sftp, log, job, "*.md5.txt", False, False)
+        process_files(
+            isse, sftp, log, job, file_filter="*.md5.txt", keep_file=False,
+            make_hash=False)
 
     if file_cnt == 0:
         job.log_info("NOFILES")
@@ -407,7 +419,7 @@ def process(isse, sftp, log, **kwargs):
     log.log_info("process::end %s: %s" % (isse.review_dir, str(file_cnt)))
 
 
-def _remove_files(isse, log, **kwargs):
+def _remove_files(isse, log):
 
     """Function:  _remove_files
 
@@ -425,7 +437,7 @@ def _remove_files(isse, log, **kwargs):
         log.log_warn("%s" % str(err_msg))
 
 
-def _process_item(isse, sftp, log, job, item, **kwargs):
+def _process_item(isse, sftp, log, job, item):
 
     """Function:  _process_item
 
@@ -456,7 +468,7 @@ def _process_item(isse, sftp, log, job, item, **kwargs):
     return cnt
 
 
-def _send(isse, sftp, log, **kwargs):
+def _send(isse, sftp, log):
 
     """Function:  _send
 
@@ -509,7 +521,7 @@ def _send(isse, sftp, log, **kwargs):
             log.log_warn("%s" % str(err_msg))
 
 
-def process_images(move_file, log, **kwargs):
+def process_images(move_file, log):
 
     """Function:  process_images
 
@@ -540,7 +552,7 @@ def process_images(move_file, log, **kwargs):
                      % thumb_name)
 
 
-def process_media(move_file, log, **kwargs):
+def process_media(move_file, log):
 
     """Function:  process_media
 
@@ -572,7 +584,7 @@ def process_media(move_file, log, **kwargs):
         move_file.add_to_cleanup(file_path)
 
 
-def process_zip(move_file, log, **kwargs):
+def process_zip(move_file, log):
 
     """Function:  process_zip
 
@@ -605,7 +617,7 @@ def process_zip(move_file, log, **kwargs):
         log.log_warn("\t Dissem: %s" % move_file.dissem_level)
 
 
-def cleanup(move_file, log, **kwargs):
+def cleanup(move_file, log):
 
     """Function:  cleanup
 
@@ -630,7 +642,7 @@ def cleanup(move_file, log, **kwargs):
                 log.log_info("cleanup::deleted %s" % item)
 
 
-def move_to_reviewed(isse, log, **kwargs):
+def move_to_reviewed(isse, log):
 
     """Function:  move_to_reviewed
 

@@ -41,13 +41,13 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialize testing environment.
-        test_status_fail -> Test with status set to false.
-        test_remove_fail -> Test with remove file fails.
-        test_keep_files -> Test with keep files set to True.
-        test_no_sftp_dir -> Test with no ftp directory.
-        test_no_connect -> Test with no connection to SFTP.
-        test_good_check -> Test with good directory checks.
+        setUp
+        test_status_fail
+        test_remove_fail
+        test_keep_files
+        test_no_sftp_dir
+        test_no_connect
+        test_good_check
 
     """
 
@@ -68,11 +68,11 @@ class UnitTest(unittest.TestCase):
             Description:  Class which is a representation of SFTP class.
 
             Methods:
-                __init__ -> Initialize configuration environment.
-                open_conn -> open_conn method.
-                chg_dir -> chg_dir method.
-                get_pwd -> get_pwd method.
-                put_file -> put_file method.
+                __init__
+                open_conn
+                chg_dir
+                get_pwd
+                put_file
 
             """
 
@@ -83,8 +83,6 @@ class UnitTest(unittest.TestCase):
                 Description:  Initialization instance of the IsseGuard class.
 
                 Arguments:
-                    (input) cfg_file -> SFTP configuration file.
-                    (input) cfg_dir -> Path to SFTP configuration file.
 
                 """
 
@@ -114,7 +112,6 @@ class UnitTest(unittest.TestCase):
                 Description:  chg_dir method.
 
                 Arguments:
-                    (input) dir_path -> Directory path.
 
                 """
 
@@ -156,7 +153,7 @@ class UnitTest(unittest.TestCase):
             Description:  Class which is a representation of IsseGuard class.
 
             Methods:
-                __init__ -> Initialize configuration environment.
+                __init__
 
             """
 

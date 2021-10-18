@@ -27,9 +27,9 @@ pipeline {
                 virtualenv test_env
                 source test_env/bin/activate
                 pip2 install mock==2.0.0 --user
+                pip2 install pycrypto==2.3 --user
                 pip2 install paramiko==1.8.0 --user
                 pip2 install pathlib2==2.3.0 --user
-                pip2 install pycrypto==2.3 --user
                 pip2 install scandir==1.5 --user
                 pip2 install simplejson==2.0.9 --user
                 ./test/unit/isse_guard_transfer/_process_item.py
@@ -105,6 +105,11 @@ pipeline {
                     server.upload(uploadSpec)
                 }
             }
+        }
+    }
+    post {
+        always {
+            cleanWs disableDeferredWipeout: true
         }
     }
 }
